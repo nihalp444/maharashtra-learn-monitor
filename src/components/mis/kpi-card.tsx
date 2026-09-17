@@ -1,0 +1,6 @@
+import { ArrowDownRight, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { formatNumber } from "@/features/mis/mock-service";
+export function KpiCard({ label, value, suffix, change, icon: Icon, tone = "blue" }: { label: string; value: number; suffix?: string; change: number; icon: LucideIcon; tone?: string }) {
+  const positive = change >= 0;
+  return <article className="rounded-lg border border-border bg-card p-4 shadow-mis transition-shadow hover:shadow-mis-raised"><div className="flex items-start justify-between"><div className={`grid size-9 place-items-center rounded-md bg-${tone}-soft text-${tone}`}><Icon className="size-4.5" /></div><span className={`inline-flex items-center text-[11px] font-semibold ${positive ? "text-positive" : "text-destructive"}`}>{positive ? <ArrowUpRight className="size-3.5" /> : <ArrowDownRight className="size-3.5" />}{Math.abs(change)}%</span></div><p className="mt-4 text-[11px] font-semibold uppercase text-muted-foreground">{label}</p><p className="mt-1 text-2xl font-bold tabular-nums text-card-foreground">{suffix === "%" ? value.toFixed(1) : formatNumber(value)}{suffix}</p><p className="mt-1 text-[10px] text-muted-foreground">vs previous period</p></article>;
+}
