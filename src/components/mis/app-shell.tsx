@@ -13,7 +13,7 @@ const nav = [
 ] as const;
 
 function BrandMark() {
-  return <div className="grid size-11 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground shadow-sm"><ShieldCheck className="size-6" /></div>;
+  return <div className="grid size-9 shrink-0 place-items-center rounded-sm border border-primary/20 bg-primary-soft text-primary"><ShieldCheck className="size-5" /></div>;
 }
 
 function Navigation({ onNavigate }: { onNavigate?: () => void }) {
@@ -22,7 +22,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
     {nav.map(item => {
       const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
       const Icon = item.icon;
-      return <Link key={item.to} to={item.to} onClick={onNavigate} className={`group flex h-11 items-center gap-3 rounded-md px-3 text-sm font-medium transition-colors ${active ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"}`}>
+      return <Link key={item.to} to={item.to} onClick={onNavigate} className={`group flex h-10 items-center gap-3 rounded-sm border-l-2 px-3 text-[13px] font-medium transition-colors ${active ? "border-primary bg-sidebar-accent text-sidebar-primary" : "border-transparent text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"}`}>
         <Icon className="size-4.5" /><span>{item.label}</span>{active && <ChevronRight className="ml-auto size-4" />}
       </Link>;
     })}
@@ -39,23 +39,22 @@ function SettingsDialog() {
 }
 
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
-  return <div className="flex h-full flex-col bg-sidebar px-4 py-5 text-sidebar-foreground">
-    <div className="flex items-center gap-3 border-b border-sidebar-border px-1 pb-5"><BrandMark /><div><p className="text-[11px] font-semibold uppercase text-sidebar-primary">Government of Maharashtra</p><p className="text-sm font-semibold">महाराष्ट्र शासन</p></div></div>
-    <div className="py-6"><p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-sidebar-foreground/45">Monitoring</p><Navigation onNavigate={onNavigate} /></div>
+  return <div className="flex h-full flex-col bg-sidebar px-3 py-4 text-sidebar-foreground">
+    <div className="flex items-center gap-3 border-b border-sidebar-border px-1 pb-4"><BrandMark /><div><p className="text-[10px] font-bold uppercase text-sidebar-primary">Government of Maharashtra</p><p className="text-[13px] font-semibold">महाराष्ट्र शासन</p></div></div>
+    <div className="py-5"><p className="mb-2 px-3 text-[9px] font-bold uppercase tracking-[0.12em] text-sidebar-foreground/45">Monitoring</p><Navigation onNavigate={onNavigate} /></div>
     <div className="mt-auto space-y-1 border-t border-sidebar-border pt-4"><SettingsDialog /><div className="flex items-center gap-3 px-3 py-3"><div className="grid size-8 place-items-center rounded-full bg-sidebar-accent text-sidebar-primary"><UserRound className="size-4" /></div><div className="min-w-0"><p className="truncate text-xs font-semibold">Education Authority</p><p className="text-[10px] text-sidebar-foreground/55">MIS Viewer</p></div></div></div>
   </div>;
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  return <div className="min-h-screen bg-background lg:grid lg:grid-cols-[256px_1fr]">
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-sidebar-border lg:block"><Sidebar /></aside>
+  return <div className="min-h-screen bg-background lg:grid lg:grid-cols-[224px_1fr]">
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-56 border-r border-sidebar-border lg:block"><Sidebar /></aside>
     {menuOpen && <div className="fixed inset-0 z-50 lg:hidden"><button className="absolute inset-0 bg-overlay" aria-label="Close menu" onClick={() => setMenuOpen(false)} /><aside className="relative h-full w-72 border-r border-sidebar-border"><button onClick={() => setMenuOpen(false)} className="absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-md text-sidebar-foreground"><X className="size-5" /></button><Sidebar onNavigate={() => setMenuOpen(false)} /></aside></div>}
     <div className="min-w-0 lg:col-start-2">
-      <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur-sm"><div className="flex min-h-20 items-center gap-4 px-4 sm:px-6 xl:px-8">
+      <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur-sm"><div className="flex min-h-16 items-center gap-3 px-4 sm:px-5 xl:px-6">
         <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setMenuOpen(true)} aria-label="Open menu"><Menu /></Button>
-        <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-foreground sm:text-base">Maharashtra Digital Learning & Engagement MIS</p><p className="hidden truncate text-xs text-muted-foreground sm:block">Student Learning & Engagement Monitoring Dashboard</p></div>
-        <div className="hidden items-center gap-7 border-l border-border pl-6 xl:flex"><div><p className="text-[9px] font-semibold uppercase text-muted-foreground">Learning Content Partner</p><p className="text-sm font-bold text-primary">Klassroom</p></div><div><p className="text-[9px] font-semibold uppercase text-muted-foreground">Technology Partner</p><p className="text-sm font-semibold">Arceus InfoTech</p></div></div>
+        <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-foreground sm:text-base">Maharashtra Digital Learning & Engagement MIS</p><p className="hidden truncate text-[11px] text-muted-foreground sm:block">Student Learning & Engagement Monitoring Dashboard</p></div>
         <Button variant="ghost" size="icon" aria-label="Notifications" className="relative"><Bell /><span className="absolute right-2 top-2 size-1.5 rounded-full bg-destructive" /></Button>
         <div className="hidden size-9 place-items-center rounded-full bg-secondary text-secondary-foreground sm:grid"><UserRound className="size-4" /></div>
       </div></header>
