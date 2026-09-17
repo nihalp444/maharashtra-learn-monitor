@@ -6,4 +6,4 @@
 - [x] Build district analytics drill-down
 - [x] Build learning programs page
 - [x] Build reports and demo exports
-- [ ] Add route metadata and verify desktop/mobile views
+- [x] Add route metadata and verify desktop/mobile views
