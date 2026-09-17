@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DistrictAnalyticsRouteImport } from './routes/district-analytics'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DistrictAnalyticsRoute = DistrictAnalyticsRouteImport.update({
+  id: '/district-analytics',
+  path: '/district-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/district-analytics': typeof DistrictAnalyticsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/district-analytics': typeof DistrictAnalyticsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/district-analytics': typeof DistrictAnalyticsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/district-analytics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/district-analytics'
+  id: '__root__' | '/' | '/district-analytics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DistrictAnalyticsRoute: typeof DistrictAnalyticsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/district-analytics': {
+      id: '/district-analytics'
+      path: '/district-analytics'
+      fullPath: '/district-analytics'
+      preLoaderRoute: typeof DistrictAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DistrictAnalyticsRoute: DistrictAnalyticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
