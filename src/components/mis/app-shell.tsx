@@ -41,7 +41,7 @@ function SettingsDialog() {
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return <div className="flex h-full flex-col bg-sidebar px-3 py-4 text-sidebar-foreground">
     <div className="flex items-center gap-3 border-b border-sidebar-border px-1 pb-4"><BrandMark /><div><p className="text-[10px] font-bold uppercase text-sidebar-primary">Government of Maharashtra</p><p className="text-[13px] font-semibold">महाराष्ट्र शासन</p></div></div>
-    <div className="py-5"><p className="mb-2 px-3 text-[9px] font-bold uppercase tracking-[0.12em] text-sidebar-foreground/45">Monitoring</p><Navigation onNavigate={onNavigate} /></div>
+    <div className="py-5"><p className="mb-2 px-3 text-[9px] font-bold uppercase tracking-[0.12em] text-sidebar-foreground/45">Monitoring</p><Navigation {...(onNavigate ? { onNavigate } : {})} /></div>
     <div className="mt-auto space-y-1 border-t border-sidebar-border pt-4"><SettingsDialog /><div className="flex items-center gap-3 px-3 py-3"><div className="grid size-8 place-items-center rounded-full bg-sidebar-accent text-sidebar-primary"><UserRound className="size-4" /></div><div className="min-w-0"><p className="truncate text-xs font-semibold">Education Authority</p><p className="text-[10px] text-sidebar-foreground/55">MIS Viewer</p></div></div></div>
   </div>;
 }
