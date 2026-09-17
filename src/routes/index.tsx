@@ -64,18 +64,6 @@ function DashboardPage() {
       <PageHeader
         title="Statewide Learning Overview"
         subtitle="Real-time monitoring of student participation, course progress, and academic outcomes across Maharashtra."
-        actions={
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2 text-left xl:text-right">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                Data Synced
-              </p>
-              <p className="text-xs font-semibold text-slate-800">
-                17 Sep 2026 · 03:30 PM IST
-              </p>
-            </div>
-          </div>
-        }
       />
 
       <FilterBar
@@ -140,7 +128,7 @@ function DashboardPage() {
         {/* Learning Programs */}
         <SectionCard
           title="Flagship Learning Programs"
-          subtitle="Direct student learning enablement through our digital partner Klassroom."
+          subtitle="Direct student learning enablement through the OOT platform - Klassroom."
         >
           <ProgramCards programs={programs} />
         </SectionCard>
@@ -168,11 +156,10 @@ function DashboardPage() {
                   <button
                     key={p}
                     onClick={() => setTrendPeriod(p)}
-                    className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
-                      trendPeriod === p
-                        ? "bg-white text-slate-900 shadow-xs"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
+                    className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${trendPeriod === p
+                      ? "bg-white text-slate-900 shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                      }`}
                   >
                     {p === "6m" ? "Last 6 Months" : "Full Academic Year"}
                   </button>
@@ -291,11 +278,11 @@ function DashboardPage() {
                 onClick={() =>
                   navigate({
                     to: "/district-analytics",
-                    search: { district: "nandurbar" },
+                    search: { district: selectedDistrict ?? "nandurbar" },
                   })
                 }
               >
-                Inspect Nandurbar Talukas
+                Inspect Districts
               </Button>
             </div>
           </div>
