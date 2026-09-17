@@ -5,6 +5,7 @@ import { formatNumber, statusFor, type District } from "@/features/mis/mock-serv
 export function MaharashtraMap({ districts, selectedId, onSelect }: { districts: District[]; selectedId?: string; onSelect?: (id: string) => void }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const active = districts.find(d => d.id === (hovered ?? selectedId)) ?? districts[0];
+  if (!active) return null;
   return <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
     <div className="relative min-h-80 overflow-hidden rounded-md border border-border bg-map">
       <svg viewBox="55 170 610 500" className="h-full min-h-80 w-full" role="img" aria-label="Representative Maharashtra district engagement map">
