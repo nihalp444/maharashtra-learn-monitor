@@ -170,3 +170,82 @@ export function DistrictComparisonChart({
     </div>
   );
 }
+
+export function ProgramAssessmentBarChart({
+  data,
+}: {
+  data: { name: string; averageScore: number; passRate: number }[];
+}) {
+  const mounted = useMounted();
+  if (!mounted) return <div className="h-72 animate-pulse rounded-xl bg-slate-100" />;
+
+  return (
+    <div className="h-72 w-full pt-2">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 15, right: 15, left: -15, bottom: 25 }}>
+          <CartesianGrid stroke="#f1f5f9" strokeDasharray="4 4" vertical={false} />
+          <XAxis
+            dataKey="name"
+            tick={{ fill: "#475569", fontSize: 11, fontWeight: 600 }}
+            axisLine={{ stroke: "#e2e8f0" }}
+            tickLine={false}
+            angle={-15}
+            textAnchor="end"
+            interval={0}
+          />
+          <YAxis
+            domain={[0, 100]}
+            tick={{ fill: "#64748b", fontSize: 11 }}
+            axisLine={false}
+            tickLine={false}
+            unit="%"
+          />
+          <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`]} />
+          <Legend verticalAlign="top" align="right" iconType="circle" wrapperStyle={{ paddingBottom: "10px", fontSize: "12px" }} />
+          <Bar dataKey="averageScore" name="Avg Score (%)" fill="#2563eb" radius={[5, 5, 0, 0]} barSize={24} />
+          <Bar dataKey="passRate" name="Pass Rate (%)" fill="#059669" radius={[5, 5, 0, 0]} barSize={24} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+export function EngagementVsAssessmentChart({
+  data,
+}: {
+  data: { district: string; engagement: number; score: number }[];
+}) {
+  const mounted = useMounted();
+  if (!mounted) return <div className="h-72 animate-pulse rounded-xl bg-slate-100" />;
+
+  return (
+    <div className="h-72 w-full pt-2">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 15, right: 15, left: -15, bottom: 25 }}>
+          <CartesianGrid stroke="#f1f5f9" strokeDasharray="4 4" vertical={false} />
+          <XAxis
+            dataKey="district"
+            tick={{ fill: "#475569", fontSize: 10, fontWeight: 500 }}
+            axisLine={{ stroke: "#e2e8f0" }}
+            tickLine={false}
+            angle={-30}
+            textAnchor="end"
+            interval={0}
+          />
+          <YAxis
+            domain={[40, 100]}
+            tick={{ fill: "#64748b", fontSize: 11 }}
+            axisLine={false}
+            tickLine={false}
+            unit="%"
+          />
+          <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`]} />
+          <Legend verticalAlign="top" align="right" iconType="circle" wrapperStyle={{ paddingBottom: "10px", fontSize: "12px" }} />
+          <Bar dataKey="engagement" name="Platform Engagement %" fill="#9333ea" radius={[4, 4, 0, 0]} barSize={16} />
+          <Bar dataKey="score" name="Assessment Score %" fill="#0284c7" radius={[4, 4, 0, 0]} barSize={16} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+

@@ -1,5 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Award, BookOpen, Clock3, GraduationCap, Search, Target, UsersRound } from "lucide-react";
+import {
+  ArrowRight,
+  Award,
+  BookOpen,
+  CheckCircle2,
+  Clock3,
+  GraduationCap,
+  Search,
+  Target,
+  UsersRound,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +22,12 @@ import { MaharashtraMap } from "@/components/mis/maharashtra-map";
 import { PageHeader } from "@/components/mis/page-header";
 import { ProgramCards } from "@/components/mis/program-cards";
 import { SectionCard } from "@/components/mis/section-card";
-import { misService, type DashboardFilters } from "@/features/mis/mock-service";
+import {
+  formatNumber,
+  misService,
+  type AgeGroupId,
+  type DashboardFilters,
+} from "@/features/mis/mock-service";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,10 +65,20 @@ function DashboardPage() {
   const [filters, setFilters] = useState(defaults);
   const [trendPeriod, setTrendPeriod] = useState<"6m" | "12m">("6m");
   const [districtSearch, setDistrictSearch] = useState("");
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeGroupId>("15-18");
 
+  const ageGroups = misService.getAgeGroups();
   const metrics = misService.getMetrics(filters);
-  const programs = misService.getFilteredPrograms(filters);
+  const programs = misService.getFilteredPrograms(filters, selectedAgeGroup);
   const districts = misService.getDistricts();
+  const assessmentMetrics = misService.getAssessmentMetrics({
+    ageGroup: selectedAgeGroup,
+    district: filters.district,
+    taluka: filters.taluka,
+    program: filters.program,
+    assessment: "all",
+    period: filters.period,
+  });
   const selectedDistrict = filters.district === "all" ? undefined : filters.district;
 
   const selectDistrict = (id: string) =>
@@ -84,7 +109,7 @@ function DashboardPage() {
             value={metrics.totalStudents}
             change={8.4}
             icon={UsersRound}
-            tone="blue"
+            tone="maroon"
           />
           <KpiCard
             label="Active Learners"
@@ -125,13 +150,128 @@ function DashboardPage() {
           />
         </div>
 
-        {/* Learning Programs */}
+        {/* Learning Programs with Age-Group Selector */}
         <SectionCard
           title="Flagship Learning Programs"
-          subtitle="Direct student learning enablement through the OOT platform - Klassroom."
+          subtitle="Direct student learning enablement through the OTT platform - Klassroom."
+          action={
+            <div className="inline-flex items-center gap-1 rounded-xl bg-slate-100/90 p-1 border border-slate-200/60 shadow-2xs">
+              {ageGroups.map((ag) => {
+                const activeTab = selectedAgeGroup === ag.id;
+                return (
+                  <button
+                    key={ag.id}
+                    onClick={() => setSelectedAgeGroup(ag.id as AgeGroupId)}
+                    className={`relative rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all duration-200 ${
+                      activeTab
+                        ? "bg-white text-primary shadow-xs ring-1 ring-slate-200/80"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                    }`}
+                  >
+                    {ag.label}
+                  </button>
+                );
+              })}
+            </div>
+          }
         >
           <ProgramCards programs={programs} />
         </SectionCard>
+
+        {/* Compact Assessment Snapshot */}
+        <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 p-5 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 border border-emerald-200/60">
+                <CheckCircle2 className="size-3.5" />
+                Statewide Assessment Cycle 2025–26
+              </div>
+              <h2 className="mt-2 text-base font-extrabold text-slate-900 sm:text-lg">
+                Assessment & Academic Performance Snapshot
+              </h2>
+              <p className="mt-0.5 text-xs text-slate-500">
+                Unified tracking across primary, middle, and entrance readiness assessments in 36 districts
+              </p>
+            </div>
+            <Button
+              onClick={() => navigate({ to: "/assessment-analytics" })}
+              className="gap-2 rounded-lg bg-primary font-semibold text-white shadow-sm hover:bg-primary/90"
+            >
+              <span>View Assessment Analytics</span>
+              <ArrowRight className="size-4" />
+            </Button>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Average Assessment Score
+              </p>
+              <div className="mt-1.5 flex items-baseline gap-2">
+                <span className="text-2xl font-black text-slate-900">
+                  {assessmentMetrics.averageScore}%
+                </span>
+                <span className="text-xs font-bold text-emerald-600">
+                  +3.8% MoM
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] text-slate-500">
+                Benchmark target: 70.0%
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Assessment Completion
+              </p>
+              <div className="mt-1.5 flex items-baseline gap-2">
+                <span className="text-2xl font-black text-slate-900">
+                  {assessmentMetrics.completionRate}%
+                </span>
+                <span className="text-xs font-bold text-emerald-600">
+                  {formatNumber(assessmentMetrics.attempts)} tests
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] text-slate-500">
+                Across registered learners
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Statewide Pass Rate
+              </p>
+              <div className="mt-1.5 flex items-baseline gap-2">
+                <span className="text-2xl font-black text-slate-900">
+                  {assessmentMetrics.passRate}%
+                </span>
+                <span className="text-xs font-bold text-emerald-600">
+                  Healthy
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] text-slate-500">
+                Passing threshold: &gt; 50%
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Top &amp; Focus Areas
+              </p>
+              <div className="mt-1 text-xs">
+                <p className="font-bold text-emerald-700">
+                  ★ Top: Foundational (84%)
+                </p>
+                <p className="mt-0.5 font-bold text-rose-600">
+                  ⚠ Focus: JEE Mechanics (48%)
+                </p>
+              </div>
+              <p className="mt-1 text-[11px] text-slate-500">
+                4 priority intervention points
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* State Map */}
         <SectionCard

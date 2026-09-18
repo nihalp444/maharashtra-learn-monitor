@@ -92,48 +92,49 @@ function DistrictAnalytics() {
 
       <div className="space-y-6 p-4 sm:p-6 xl:p-8">
         {/* District Focus Banner */}
-        <div className="rounded-xl border border-blue-200/80 bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 p-6 text-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-r from-primary via-primary/95 to-slate-900 p-6 text-white shadow-md">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <span className="inline-flex rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300 border border-white/10 shadow-xs">
+                <span className="size-1.5 rounded-full bg-amber-400" />
                 Active Inspection Zone
               </span>
-              <h2 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h2 className="mt-2.5 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
                 {district.name} District
               </h2>
-              <p className="mt-1 text-xs text-blue-200">
+              <p className="mt-1 text-xs text-white/80">
                 Monitoring {district.talukas.length} administrative talukas across all learning programs
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="rounded-lg bg-white/10 px-4 py-2.5 backdrop-blur-xs">
-                <p className="text-[10px] font-semibold uppercase text-blue-200">
+              <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-xs shadow-2xs">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-200/90">
                   Total Students
                 </p>
-                <p className="text-base font-bold">
+                <p className="text-base font-extrabold text-white mt-0.5">
                   {formatNumber(metrics.totalStudents)}
                 </p>
               </div>
-              <div className="rounded-lg bg-white/10 px-4 py-2.5 backdrop-blur-xs">
-                <p className="text-[10px] font-semibold uppercase text-blue-200">
+              <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-xs shadow-2xs">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-200/90">
                   Active Students
                 </p>
-                <p className="text-base font-bold">
+                <p className="text-base font-extrabold text-white mt-0.5">
                   {formatNumber(metrics.activeStudents)}
                 </p>
               </div>
-              <div className="rounded-lg bg-white/10 px-4 py-2.5 backdrop-blur-xs">
-                <p className="text-[10px] font-semibold uppercase text-blue-200">
+              <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-xs shadow-2xs">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-200/90">
                   Engagement
                 </p>
-                <p className="text-base font-bold">{metrics.engagement}%</p>
+                <p className="text-base font-extrabold text-white mt-0.5">{metrics.engagement}%</p>
               </div>
-              <div className="rounded-lg bg-white/10 px-4 py-2.5 backdrop-blur-xs">
-                <p className="text-[10px] font-semibold uppercase text-blue-200">
+              <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-xs shadow-2xs">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-200/90">
                   Learning Hours
                 </p>
-                <p className="text-base font-bold">
+                <p className="text-base font-extrabold text-white mt-0.5">
                   {formatNumber(metrics.learningHours)}
                 </p>
               </div>
@@ -148,7 +149,7 @@ function DistrictAnalytics() {
             value={metrics.totalStudents}
             change={7.2}
             icon={UsersRound}
-            tone="blue"
+            tone="maroon"
           />
           <KpiCard
             label="Active Students"

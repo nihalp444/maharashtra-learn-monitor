@@ -1,47 +1,117 @@
-import { ArrowUpRight, Bot, ExternalLink, Microscope, Sigma } from "lucide-react";
+import {
+  ArrowUpRight,
+  BookOpen,
+  Bot,
+  BrainCircuit,
+  Calculator,
+  Compass,
+  Cpu,
+  ExternalLink,
+  HeartHandshake,
+  Microscope,
+  Puzzle,
+  Sigma,
+  Sparkles,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PROGRAM_LINKS } from "@/config/program-links";
+import { KLASSROOM_LINKS } from "@/config/program-links";
 import { formatNumber, type LearningProgram } from "@/features/mis/mock-service";
 
-const icons = { "ai-ml": Bot, neet: Microscope, jee: Sigma } as const;
+const icons: Record<string, LucideIcon> = {
+  foundational: BookOpen,
+  "math-6-10": Calculator,
+  "science-6-10": Compass,
+  "gk-skills": HeartHandshake,
+  "math-11-14": Calculator,
+  "science-11-14": Microscope,
+  "digital-tech": Cpu,
+  "logic-reasoning": Puzzle,
+  "ai-ml": Bot,
+  neet: Sparkles,
+  jee: Sigma,
+};
 
 interface ColorTheme {
-  bgGradient: string;
+  cardBorder: string;
+  cardHoverBorder: string;
+  cardHoverShadow: string;
+  headerBg: string;
+  headerBorder: string;
   iconBg: string;
-  iconText: string;
+  iconColor: string;
   badgeBg: string;
   badgeText: string;
-  borderHover: string;
+  badgeBorder: string;
+  accentBar: string;
+  buttonBg: string;
+  buttonHover: string;
 }
 
-const defaultTheme: ColorTheme = {
-  bgGradient: "from-blue-500/10 via-indigo-500/5 to-transparent",
-  iconBg: "bg-blue-600",
-  iconText: "text-white",
-  badgeBg: "bg-blue-50",
-  badgeText: "text-blue-700",
-  borderHover: "hover:border-blue-300",
-};
-
 const colorThemes: Record<string, ColorTheme> = {
-  "program-blue": defaultTheme,
+  "program-blue": {
+    cardBorder: "border-blue-200/70",
+    cardHoverBorder: "hover:border-blue-400",
+    cardHoverShadow: "hover:shadow-blue-500/10",
+    headerBg: "bg-gradient-to-r from-blue-50/80 via-indigo-50/30 to-white",
+    headerBorder: "border-blue-100",
+    iconBg: "bg-blue-600 text-white shadow-blue-500/20",
+    iconColor: "text-white",
+    badgeBg: "bg-blue-50 text-blue-700",
+    badgeText: "text-blue-700 font-bold",
+    badgeBorder: "border-blue-200",
+    accentBar: "bg-blue-600",
+    buttonBg: "border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 text-blue-800",
+    buttonHover: "group-hover:border-blue-300",
+  },
   "program-green": {
-    bgGradient: "from-emerald-500/10 via-teal-500/5 to-transparent",
-    iconBg: "bg-emerald-600",
-    iconText: "text-white",
-    badgeBg: "bg-emerald-50",
-    badgeText: "text-emerald-700",
-    borderHover: "hover:border-emerald-300",
+    cardBorder: "border-emerald-200/70",
+    cardHoverBorder: "hover:border-emerald-400",
+    cardHoverShadow: "hover:shadow-emerald-500/10",
+    headerBg: "bg-gradient-to-r from-emerald-50/80 via-teal-50/30 to-white",
+    headerBorder: "border-emerald-100",
+    iconBg: "bg-emerald-600 text-white shadow-emerald-500/20",
+    iconColor: "text-white",
+    badgeBg: "bg-emerald-50 text-emerald-700",
+    badgeText: "text-emerald-700 font-bold",
+    badgeBorder: "border-emerald-200",
+    accentBar: "bg-emerald-600",
+    buttonBg: "border-emerald-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 text-emerald-800",
+    buttonHover: "group-hover:border-emerald-300",
   },
   "program-amber": {
-    bgGradient: "from-amber-500/10 via-orange-500/5 to-transparent",
-    iconBg: "bg-amber-600",
-    iconText: "text-white",
-    badgeBg: "bg-amber-50",
-    badgeText: "text-amber-700",
-    borderHover: "hover:border-amber-300",
+    cardBorder: "border-amber-200/70",
+    cardHoverBorder: "hover:border-amber-400",
+    cardHoverShadow: "hover:shadow-amber-500/10",
+    headerBg: "bg-gradient-to-r from-amber-50/80 via-orange-50/30 to-white",
+    headerBorder: "border-amber-100",
+    iconBg: "bg-amber-600 text-white shadow-amber-500/20",
+    iconColor: "text-white",
+    badgeBg: "bg-amber-50 text-amber-700",
+    badgeText: "text-amber-700 font-bold",
+    badgeBorder: "border-amber-200",
+    accentBar: "bg-amber-600",
+    buttonBg: "border-amber-200 hover:bg-amber-600 hover:text-white hover:border-amber-600 text-amber-800",
+    buttonHover: "group-hover:border-amber-300",
+  },
+  "program-purple": {
+    cardBorder: "border-purple-200/70",
+    cardHoverBorder: "hover:border-purple-400",
+    cardHoverShadow: "hover:shadow-purple-500/10",
+    headerBg: "bg-gradient-to-r from-purple-50/80 via-pink-50/30 to-white",
+    headerBorder: "border-purple-100",
+    iconBg: "bg-purple-600 text-white shadow-purple-500/20",
+    iconColor: "text-white",
+    badgeBg: "bg-purple-50 text-purple-700",
+    badgeText: "text-purple-700 font-bold",
+    badgeBorder: "border-purple-200",
+    accentBar: "bg-purple-600",
+    buttonBg: "border-purple-200 hover:bg-purple-600 hover:text-white hover:border-purple-600 text-purple-800",
+    buttonHover: "group-hover:border-purple-300",
   },
 };
+
+const defaultTheme: ColorTheme = colorThemes["program-blue"];
 
 export function ProgramCards({
   programs,
@@ -51,104 +121,135 @@ export function ProgramCards({
   detailed?: boolean;
 }) {
   return (
-    <div className={`grid gap-4 ${detailed ? "xl:grid-cols-3" : "lg:grid-cols-3"}`}>
+    <div
+      className={`grid gap-4 sm:gap-5 ${
+        programs.length === 4
+          ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+          : detailed
+            ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+            : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+      }`}
+    >
       {programs.map((program) => {
-        const Icon = icons[program.id];
+        const Icon = icons[program.id] ?? BrainCircuit;
         const theme: ColorTheme = colorThemes[program.color] ?? defaultTheme;
+        const targetUrl = KLASSROOM_LINKS[program.linkKey] ?? "https://www.klassroom.in/klassroom-ott/";
 
         return (
           <article
             key={program.id}
-            className={`group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border bg-card shadow-mis transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover ${theme.borderHover}`}
+            className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${theme.cardBorder} ${theme.cardHoverBorder} ${theme.cardHoverShadow}`}
           >
-            {/* Header / Banner */}
+            {/* Top Accent Stripe */}
+            <div className={`h-1 w-full ${theme.accentBar}`} />
+
+            {/* Header with compact 2-tier layout */}
             <div
-              className={`relative flex items-center justify-between border-b border-border/60 bg-gradient-to-br ${theme.bgGradient} px-5 py-4`}
+              className={`border-b ${theme.headerBorder} ${theme.headerBg} px-4 py-3 sm:px-4 sm:py-3.5`}
             >
-              <div className="flex items-center gap-3">
+              {/* Top Row: Icon + Engagement Badge */}
+              <div className="flex items-center justify-between gap-2">
                 <div
-                  className={`grid size-11 shrink-0 place-items-center rounded-xl ${theme.iconBg} ${theme.iconText} shadow-sm transition-transform duration-200 group-hover:scale-105`}
+                  className={`grid size-9 place-items-center rounded-lg ${theme.iconBg} shadow-sm transition-transform duration-200 group-hover:scale-105`}
                 >
-                  <Icon className="size-5" />
+                  <Icon className="size-4.5" />
                 </div>
-                <div>
-                  <h3 className="font-bold text-foreground sm:text-base">
-                    {program.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground">{program.fullName}</p>
+                <div
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10.5px] font-bold tracking-tight shadow-2xs ${theme.badgeBg} ${theme.badgeBorder}`}
+                >
+                  <span className="relative flex size-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-current opacity-75" />
+                    <span className="relative inline-flex size-1.5 rounded-full bg-current" />
+                  </span>
+                  <span>{program.engagement}% Engaged</span>
                 </div>
               </div>
-              <span
-                className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${theme.badgeBg} ${theme.badgeText}`}
-              >
-                {program.engagement}% Engaged
-              </span>
+
+              {/* Title & Subtitle Row with full width */}
+              <div className="mt-2">
+                <h3
+                  className="font-extrabold text-slate-900 text-sm sm:text-[15px] leading-tight tracking-tight"
+                  title={program.name}
+                >
+                  {program.name}
+                </h3>
+                <p
+                  className="mt-0.5 text-[11px] font-medium text-slate-500 line-clamp-1"
+                  title={program.fullName}
+                >
+                  {program.fullName}
+                </p>
+              </div>
             </div>
 
             {/* Body */}
-            <div className="flex-1 p-5">
-              {detailed && (
-                <p className="mb-4 text-xs leading-relaxed text-muted-foreground">
-                  {program.description}
-                </p>
-              )}
+            <div className="flex flex-1 flex-col justify-between px-4 py-3 sm:px-4 sm:py-3.5">
+              {/* Description */}
+              <p className="text-[11.5px] leading-relaxed text-slate-600 line-clamp-2">
+                {program.description}
+              </p>
 
-              <div className="grid grid-cols-2 gap-4 rounded-lg bg-slate-50/80 p-3.5 border border-slate-100">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              {/* 4-Metric Grid */}
+              <div className="mt-3 grid grid-cols-2 gap-2 rounded-lg border border-slate-100 bg-slate-50/80 p-2 sm:p-2.5">
+                <div className="overflow-hidden rounded-md bg-white p-2 border border-slate-200/50 shadow-2xs">
+                  <span className="block text-[9.5px] font-bold uppercase tracking-wider text-slate-400 truncate">
                     Enrolled Students
-                  </p>
-                  <p className="mt-1 text-sm font-bold text-foreground">
+                  </span>
+                  <span className="mt-0.5 block text-[13px] font-extrabold text-slate-900 truncate">
                     {formatNumber(program.enrolledStudents)}
-                  </p>
+                  </span>
                 </div>
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+
+                <div className="overflow-hidden rounded-md bg-white p-2 border border-slate-200/50 shadow-2xs">
+                  <span className="block text-[9.5px] font-bold uppercase tracking-wider text-slate-400 truncate">
                     Active Learners
-                  </p>
-                  <p className="mt-1 text-sm font-bold text-foreground">
+                  </span>
+                  <span className="mt-0.5 block text-[13px] font-extrabold text-slate-900 truncate">
                     {formatNumber(program.activeStudents)}
-                  </p>
+                  </span>
                 </div>
-                {detailed && (
-                  <>
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Completion Rate
-                      </p>
-                      <p className="mt-1 text-sm font-bold text-foreground">
-                        {program.completion}%
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Learning Hours
-                      </p>
-                      <p className="mt-1 text-sm font-bold text-foreground">
-                        {formatNumber(program.learningHours)}
-                      </p>
-                    </div>
-                  </>
-                )}
+
+                <div className="overflow-hidden rounded-md bg-white p-2 border border-slate-200/50 shadow-2xs">
+                  <span className="block text-[9.5px] font-bold uppercase tracking-wider text-slate-400 truncate">
+                    Completion Rate
+                  </span>
+                  <div className="mt-0.5 flex items-center justify-between gap-1">
+                    <span className="text-[13px] font-extrabold text-slate-900">
+                      {program.completion}%
+                    </span>
+                    <span className="text-[9.5px] font-bold text-emerald-600">
+                      On Track
+                    </span>
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-md bg-white p-2 border border-slate-200/50 shadow-2xs">
+                  <span className="block text-[9.5px] font-bold uppercase tracking-wider text-slate-400 truncate">
+                    Learning Hours
+                  </span>
+                  <span className="mt-0.5 block text-[13px] font-extrabold text-slate-900 truncate">
+                    {formatNumber(program.learningHours)}
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* Action Footer */}
-            <div className="border-t border-border/80 bg-slate-50/40 p-4">
+            <div className="border-t border-slate-100 bg-slate-50/50 px-3.5 py-2.5 sm:px-4 sm:py-3">
               <Button
                 size="sm"
                 variant="outline"
                 asChild
-                className="w-full justify-center gap-2 rounded-lg font-medium transition-all group-hover:border-primary/40 group-hover:bg-primary group-hover:text-primary-foreground"
+                className={`h-8.5 w-full justify-center gap-1.5 rounded-lg bg-white font-semibold text-xs transition-all shadow-2xs ${theme.buttonBg}`}
               >
                 <a
-                  href={PROGRAM_LINKS[program.linkKey]}
+                  href={targetUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center justify-center gap-2"
                 >
                   <span>Explore on Klassroom</span>
-                  <ExternalLink className="size-3.5" />
+                  <ExternalLink className="size-3.5 shrink-0 opacity-70" />
                 </a>
               </Button>
             </div>

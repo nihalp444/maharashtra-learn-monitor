@@ -8,15 +8,15 @@ interface ToneStyle {
 }
 
 const defaultToneStyle: ToneStyle = {
-  bg: "bg-blue-50",
-  text: "text-blue-600",
-  border: "border-blue-100",
+  bg: "bg-primary/10",
+  text: "text-primary",
+  border: "border-primary/20",
 };
 
 const toneStyles: Record<string, ToneStyle> = {
-  blue: defaultToneStyle,
+  blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-100" },
   green: { bg: "bg-emerald-50", text: "text-emerald-600", border: "border-emerald-100" },
-  maroon: { bg: "bg-indigo-50", text: "text-indigo-600", border: "border-indigo-100" },
+  maroon: { bg: "bg-primary/10", text: "text-primary", border: "border-primary/20" },
   amber: { bg: "bg-amber-50", text: "text-amber-600", border: "border-amber-100" },
   red: { bg: "bg-rose-50", text: "text-rose-600", border: "border-rose-100" },
 };
