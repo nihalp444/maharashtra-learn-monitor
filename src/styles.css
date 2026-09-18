@@ -39,6 +39,13 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
 
+  --color-government-bar: var(--government-bar);
+  --color-government-bar-foreground: var(--government-bar-foreground);
+  --color-government-nav: var(--government-nav);
+  --color-government-nav-active: var(--government-nav-active);
+  --color-government-nav-border: var(--government-nav-border);
+  --color-government-nav-foreground: var(--government-nav-foreground);
+
   --color-surface: var(--surface);
   --color-filter: var(--filter);
   --color-table-head: var(--table-head);
@@ -83,31 +90,38 @@
 }
 
 :root {
-  --radius: 0.75rem; /* Modern 12px smooth border radius */
+  --radius: 0.25rem;
 
   /* Sleek clean government/enterprise palette */
-  --background: #f8fafc; /* Crisp slate-50 background */
-  --foreground: #0f172a; /* Slate-900 high contrast */
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --surface: #ffffff;
-  --filter: #ffffff;
+  --background: oklch(0.975 0.004 55);
+  --foreground: oklch(0.21 0.015 35);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.015 35);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.015 35);
+  --surface: oklch(1 0 0);
+  --filter: oklch(1 0 0);
 
   /* Primary Maharashtra Government Navy / Deep Saffron Brand Accent */
-  --primary: #1e3a8a; /* Rich State Navy (blue-900) */
-  --primary-foreground: #ffffff;
-  --primary-soft: #eff6ff; /* Soft blue tint */
+  --primary: oklch(0.36 0.13 24);
+  --primary-foreground: oklch(1 0 0);
+  --primary-soft: oklch(0.96 0.025 24);
 
-  --secondary: #f1f5f9; /* Slate-100 */
-  --secondary-foreground: #1e293b;
+  --government-bar: oklch(0.22 0.01 45);
+  --government-bar-foreground: oklch(0.98 0.002 60);
+  --government-nav: oklch(0.35 0.14 24);
+  --government-nav-active: oklch(0.285 0.115 24);
+  --government-nav-border: oklch(0.46 0.12 24);
+  --government-nav-foreground: oklch(0.99 0 0);
 
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b; /* Slate-500 */
+  --secondary: oklch(0.955 0.006 55);
+  --secondary-foreground: oklch(0.27 0.02 35);
 
-  --accent: #f8fafc;
-  --accent-foreground: #0f172a;
+  --muted: oklch(0.955 0.006 55);
+  --muted-foreground: oklch(0.48 0.02 45);
+
+  --accent: oklch(0.96 0.025 24);
+  --accent-foreground: oklch(0.36 0.13 24);
 
   /* State status indicators */
   --destructive: #e11d48; /* Vibrant Rose-600 */
@@ -123,18 +137,18 @@
   --blue: #2563eb; /* Royal Blue */
   --blue-soft: #eff6ff;
 
-  --border: #e2e8f0; /* Subtle slate-200 border */
-  --input: #cbd5e1;
-  --ring: #2563eb;
+  --border: oklch(0.89 0.009 55);
+  --input: oklch(0.82 0.012 55);
+  --ring: oklch(0.44 0.13 24);
 
   /* Sidebar */
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1e293b;
-  --sidebar-primary: #1e3a8a;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #eff6ff;
-  --sidebar-accent-foreground: #1e3a8a;
-  --sidebar-border: #e2e8f0;
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.27 0.02 35);
+  --sidebar-primary: oklch(0.36 0.13 24);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0.025 24);
+  --sidebar-accent-foreground: oklch(0.36 0.13 24);
+  --sidebar-border: oklch(0.89 0.009 55);
 
   --table-head: #f8fafc;
   --overlay: rgba(15, 23, 42, 0.4);
@@ -166,11 +180,11 @@
     margin: 0;
     background: var(--background);
     color: var(--foreground);
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 }
 
