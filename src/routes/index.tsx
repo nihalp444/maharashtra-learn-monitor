@@ -62,7 +62,7 @@ function DashboardPage() {
   return (
     <>
       <PageHeader
-        title="Statewide Learning Overview"
+        title="Digital Learning MIS"
         subtitle="Real-time monitoring of student participation, course progress, and academic outcomes across Maharashtra."
       />
 
