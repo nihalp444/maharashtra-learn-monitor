@@ -18,7 +18,7 @@ import {
   type DashboardFilters,
 } from "@/features/mis/mock-service";
 
-export const Route = createFileRoute("/district-analytics")({
+export const Route = createFileRoute("/_authenticated/district-analytics")({
   validateSearch: (search: Record<string, unknown>) => ({
     district:
       typeof search["district"] === "string" ? search["district"] : "nandurbar",

@@ -29,7 +29,7 @@ import {
   type DashboardFilters,
 } from "@/features/mis/mock-service";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Maharashtra Digital Learning MIS" },

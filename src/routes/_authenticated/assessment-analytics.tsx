@@ -41,7 +41,7 @@ import {
   type AssessmentFilters,
 } from "@/features/mis/mock-service";
 
-export const Route = createFileRoute("/assessment-analytics")({
+export const Route = createFileRoute("/_authenticated/assessment-analytics")({
   head: () => ({
     meta: [
       { title: "Assessment Analytics | Maharashtra Learning MIS" },

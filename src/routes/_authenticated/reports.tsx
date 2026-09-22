@@ -22,7 +22,7 @@ import {
   statusFor,
 } from "@/features/mis/mock-service";
 
-export const Route = createFileRoute("/reports")({
+export const Route = createFileRoute("/_authenticated/reports")({
   head: () => ({
     meta: [
       { title: "Reports & Insights | Maharashtra Learning MIS" },
