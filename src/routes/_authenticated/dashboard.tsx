@@ -10,7 +10,7 @@ import {
   Target,
   UsersRound,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CourseEngagement } from "@/components/mis/course-engagement";
@@ -28,6 +28,14 @@ import {
   type AgeGroupId,
   type DashboardFilters,
 } from "@/features/mis/mock-service";
+import { StudentDashboard } from "@/components/student/student-dashboard";
+import {
+  STUDENT_ACCOUNTS,
+  isStudentUsername,
+  type StudentProfile,
+} from "@/features/student/student-data";
+import { studentService } from "@/features/student/student-service";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -61,11 +69,61 @@ const defaults: DashboardFilters = {
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState<{
+    isStudent: boolean;
+    studentProfile: StudentProfile | null;
+  }>({
+    isStudent: false,
+    studentProfile: null,
+  });
+
+  useEffect(() => {
+    // 1. Check local demo auth
+    if (typeof window !== "undefined") {
+      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
+      if (storedAuth && isStudentUsername(storedAuth)) {
+        setCurrentUser({
+          isStudent: true,
+          studentProfile: STUDENT_ACCOUNTS[storedAuth],
+        });
+        return;
+      } else if (storedAuth === "admin") {
+        setCurrentUser({ isStudent: false, studentProfile: null });
+        return;
+      }
+    }
+
+    // 2. Check Supabase auth
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        const role = data.user.user_metadata?.role;
+        if (role === "student") {
+          const username = data.user.user_metadata?.username as string;
+          const ageGroup = (data.user.user_metadata?.age_group as string) || "11-14";
+          const profile =
+            (username && isStudentUsername(username) && STUDENT_ACCOUNTS[username]) ||
+            studentService.getStudentByAgeGroup(ageGroup as "6-10" | "11-14" | "15-18") ||
+            STUDENT_ACCOUNTS["aarav11"];
+
+          setCurrentUser({
+            isStudent: true,
+            studentProfile: profile,
+          });
+        }
+      }
+    });
+  }, []);
+
   const [draft, setDraft] = useState(defaults);
   const [filters, setFilters] = useState(defaults);
   const [trendPeriod, setTrendPeriod] = useState<"6m" | "12m">("6m");
   const [districtSearch, setDistrictSearch] = useState("");
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeGroupId>("15-18");
+
+  // If logged in as student, render dedicated student dashboard
+  if (currentUser.isStudent && currentUser.studentProfile) {
+    return <StudentDashboard student={currentUser.studentProfile} />;
+  }
 
   const ageGroups = misService.getAgeGroups();
   const metrics = misService.getMetrics(filters);
