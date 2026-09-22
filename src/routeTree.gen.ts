@@ -9,42 +9,61 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAssessmentAnalyticsRouteImport } from './routes/_authenticated/assessment-analytics'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDistrictAnalyticsRouteImport } from './routes/_authenticated/district-analytics'
 import { Route as AuthenticatedLearningProgramsRouteImport } from './routes/_authenticated/learning-programs'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAssessmentAnalyticsRoute =
   AuthenticatedAssessmentAnalyticsRouteImport.update({
-    id: '/_authenticated/assessment-analytics',
+    id: '/assessment-analytics',
     path: '/assessment-analytics',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/_authenticated/dashboard',
+  id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDistrictAnalyticsRoute =
   AuthenticatedDistrictAnalyticsRouteImport.update({
-    id: '/_authenticated/district-analytics',
+    id: '/district-analytics',
     path: '/district-analytics',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedLearningProgramsRoute =
   AuthenticatedLearningProgramsRouteImport.update({
-    id: '/_authenticated/learning-programs',
+    id: '/learning-programs',
     path: '/learning-programs',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
-  id: '/_authenticated/reports',
+  id: '/reports',
   path: '/reports',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
@@ -52,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
@@ -60,6 +81,9 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/_authenticated/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
@@ -69,6 +93,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
+    | '/auth'
     | '/assessment-analytics'
     | '/dashboard'
     | '/district-analytics'
@@ -76,6 +102,8 @@ export interface FileRouteTypes {
     | '/reports'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
+    | '/auth'
     | '/assessment-analytics'
     | '/dashboard'
     | '/district-analytics'
@@ -83,6 +111,9 @@ export interface FileRouteTypes {
     | '/reports'
   id:
     | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/_authenticated/assessment-analytics'
     | '/_authenticated/dashboard'
     | '/_authenticated/district-analytics'
@@ -91,6 +122,73 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/assessment-analytics': {
+      id: '/_authenticated/assessment-analytics'
+      path: '/assessment-analytics'
+      fullPath: '/assessment-analytics'
+      preLoaderRoute: typeof AuthenticatedAssessmentAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/district-analytics': {
+      id: '/_authenticated/district-analytics'
+      path: '/district-analytics'
+      fullPath: '/district-analytics'
+      preLoaderRoute: typeof AuthenticatedDistrictAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/learning-programs': {
+      id: '/_authenticated/learning-programs'
+      path: '/learning-programs'
+      fullPath: '/learning-programs'
+      preLoaderRoute: typeof AuthenticatedLearningProgramsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+  }
+}
+
+interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssessmentAnalyticsRoute: typeof AuthenticatedAssessmentAnalyticsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDistrictAnalyticsRoute: typeof AuthenticatedDistrictAnalyticsRoute
@@ -98,52 +196,21 @@ export interface RootRouteChildren {
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_authenticated/assessment-analytics': {
-      id: '/_authenticated/assessment-analytics'
-      path: '/assessment-analytics'
-      fullPath: '/assessment-analytics'
-      preLoaderRoute: typeof AuthenticatedAssessmentAnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/district-analytics': {
-      id: '/_authenticated/district-analytics'
-      path: '/district-analytics'
-      fullPath: '/district-analytics'
-      preLoaderRoute: typeof AuthenticatedDistrictAnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/learning-programs': {
-      id: '/_authenticated/learning-programs'
-      path: '/learning-programs'
-      fullPath: '/learning-programs'
-      preLoaderRoute: typeof AuthenticatedLearningProgramsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/reports': {
-      id: '/_authenticated/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof AuthenticatedReportsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
-}
-
-const rootRouteChildren: RootRouteChildren = {
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAssessmentAnalyticsRoute: AuthenticatedAssessmentAnalyticsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDistrictAnalyticsRoute: AuthenticatedDistrictAnalyticsRoute,
   AuthenticatedLearningProgramsRoute: AuthenticatedLearningProgramsRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
