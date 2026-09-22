@@ -38,7 +38,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   return (
-    <nav className="flex flex-col gap-1 py-1.5 md:flex-row md:items-center md:gap-1.5 md:py-0" aria-label="Primary navigation">
+    <nav className="flex flex-col gap-1 py-1 md:flex-row md:items-center md:gap-1 md:py-0" aria-label="Primary navigation">
       {nav.map((item) => {
         const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
         const Icon = item.icon;
@@ -47,7 +47,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
             key={item.to}
             to={item.to}
             onClick={onNavigate}
-            className={`relative flex min-h-10 items-center gap-2 rounded-lg px-3.5 py-2 text-[13px] font-semibold tracking-wide transition-all duration-150 md:min-h-11 ${
+            className={`relative flex min-h-9 items-center gap-2 rounded-lg px-3.5 py-1.5 text-[13px] font-semibold tracking-wide transition-all duration-150 md:min-h-10 ${
               active
                 ? "bg-white/18 text-white shadow-xs font-bold"
                 : "text-white/85 hover:bg-white/10 hover:text-white"
@@ -56,7 +56,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
             <Icon className={`size-4 transition-transform duration-150 ${active ? "scale-105" : "opacity-80"}`} />
             <span>{item.label}</span>
             {active && (
-              <span className="hidden md:block absolute -bottom-[6px] left-3 right-3 h-[3px] rounded-full bg-amber-400" />
+              <span className="hidden md:block absolute -bottom-[5px] left-3 right-3 h-[3px] rounded-full bg-amber-400" />
             )}
           </Link>
         );
@@ -118,81 +118,152 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
 
       <header>
+        {/* Top utility bar */}
         <div className="bg-government-bar text-government-bar-foreground">
-          <div className="mx-auto flex h-9 max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8">
-            <a
-              href="#main-content"
-              className="text-xs font-semibold text-government-bar-foreground/90 transition-colors hover:text-government-bar-foreground hover:underline"
-            >
-              Skip to main content
-            </a>
-            <p className="text-xs font-semibold">
-              English <span className="mx-1.5 text-government-bar-foreground/40">|</span> मराठी
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-card">
-          <div className="mx-auto flex min-h-[96px] max-w-[1600px] items-center gap-4 px-4 py-3.5 sm:gap-6 sm:px-6 lg:px-8">
-            <Link to="/" className="flex shrink-0 items-center transition-transform duration-200 hover:scale-[1.02]">
-              <img
-                src={ASSET_METADATA.logo.src}
-                alt={ASSET_METADATA.logo.alt}
-                width={84}
-                height={84}
-                className="h-16 w-auto object-contain drop-shadow-xs sm:h-20"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  if (target.src !== ASSET_METADATA.logo.fallback) {
-                    target.src = ASSET_METADATA.logo.fallback;
-                  }
-                }}
-              />
-            </Link>
-            <div className="min-w-0 flex-1 pl-1 sm:pl-2">
-              <p className="text-xs font-bold tracking-tight text-primary sm:text-sm">
-                महाराष्ट्र इमारत व इतर बांधकाम कामगार कल्याणकारी मंडळ
-              </p>
-              <h1 className="mt-0.5 max-w-4xl text-base font-extrabold tracking-tight text-foreground sm:text-xl lg:text-[22px]">
-                MBOCWWB – Maharashtra Building and Other Construction Workers Welfare Board
-              </h1>
-              <p className="mt-0.5 text-[11px] font-bold tracking-wider uppercase text-muted-foreground/90 sm:text-xs">
-                GOVERNMENT OF MAHARASHTRA
-              </p>
+          <div className="mx-auto flex h-7 max-w-[1600px] items-center justify-between px-3 sm:px-6 lg:px-8 text-[11px] font-medium tracking-wide">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <a
+                href="#main-content"
+                className="text-government-bar-foreground/90 transition-colors hover:text-government-bar-foreground hover:underline"
+              >
+                Skip to main content
+              </a>
+              <span className="hidden sm:inline text-white/30">|</span>
+              <div className="hidden sm:flex items-center gap-1.5 text-white/80">
+                <span className="cursor-pointer hover:text-white transition-colors" title="Decrease font size">A-</span>
+                <span className="cursor-pointer font-bold hover:text-white transition-colors" title="Normal font size">A</span>
+                <span className="cursor-pointer font-bold hover:text-white transition-colors" title="Increase font size">A+</span>
+              </div>
             </div>
-            <div className="hidden shrink-0 items-center gap-4 sm:flex sm:gap-5">
-              <img
-                src={ASSET_METADATA.seal.src}
-                alt={ASSET_METADATA.seal.alt}
-                width={64}
-                height={64}
-                className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  if (target.src !== ASSET_METADATA.seal.fallback) {
-                    target.src = ASSET_METADATA.seal.fallback;
-                  }
-                }}
-              />
-              <img
-                src={ASSET_METADATA.emblem.src}
-                alt={ASSET_METADATA.emblem.alt}
-                width={56}
-                height={64}
-                className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  if (target.src !== ASSET_METADATA.emblem.fallback) {
-                    target.src = ASSET_METADATA.emblem.fallback;
-                  }
-                }}
-              />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex items-center gap-1.5 text-white/90">
+                <span className="font-semibold hover:text-white cursor-pointer transition-colors">English</span>
+                <span className="text-white/40">|</span>
+                <span className="hover:text-white cursor-pointer transition-colors font-medium">मराठी</span>
+              </div>
+              <span className="text-white/30">|</span>
+              <a
+                href="#help"
+                className="flex items-center gap-1 text-white/90 hover:text-white transition-colors"
+              >
+                <span>Help &amp; Support</span>
+              </a>
             </div>
           </div>
         </div>
 
+        {/* Main Branding Bar with compact height */}
+        <div className="bg-card border-b border-border/40">
+          <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-3 py-1.5 sm:gap-4 sm:px-6 lg:px-8">
+            {/* Left: MBOCWWB Logo & Titles */}
+            <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+              <Link to="/" className="flex shrink-0 items-center transition-transform duration-200 hover:scale-[1.02]">
+                <img
+                  src={ASSET_METADATA.logo.src}
+                  alt={ASSET_METADATA.logo.alt}
+                  width={68}
+                  height={68}
+                  className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src !== ASSET_METADATA.logo.fallback) {
+                      target.src = ASSET_METADATA.logo.fallback;
+                    }
+                  }}
+                />
+              </Link>
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold tracking-tight text-primary sm:text-xs leading-none">
+                  महाराष्ट्र इमारत व इतर बांधकाम कामगार कल्याणकारी मंडळ
+                </p>
+                <h1 className="mt-0.5 max-w-3xl text-sm font-extrabold tracking-tight text-foreground sm:text-base lg:text-lg leading-snug">
+                  MBOCWWB – Maharashtra Building and Other Construction Workers Welfare Board
+                </h1>
+                <p className="mt-0.5 text-[10px] font-bold tracking-wider uppercase text-muted-foreground/90 sm:text-[11px] leading-none">
+                  GOVERNMENT OF MAHARASHTRA
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Compact Ministers and State Seal & Emblem */}
+            <div className="flex shrink-0 items-center gap-3 sm:gap-4 lg:gap-5">
+              {/* Ministers Grid - Compact, without extra "Maharashtra" line */}
+              <div className="hidden md:flex items-stretch gap-1.5 lg:gap-2.5">
+                {ASSET_METADATA.ministers.map((minister) => (
+                  <div
+                    key={minister.name}
+                    className="flex flex-col items-center text-center w-[114px] lg:w-[124px] rounded-xl bg-white border border-[#eae5dd] p-1 shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-xs"
+                  >
+                    {/* Top Minister Photo Area with Compact Curved Backdrop */}
+                    <div className="relative h-[66px] w-full overflow-hidden rounded-lg bg-[#ece7df]">
+                      <img
+                        src={minister.src}
+                        alt={minister.alt}
+                        className="h-full w-full object-cover object-top"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (target.src !== minister.fallback) {
+                            target.src = minister.fallback;
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {/* Minister Information Block (Name + Designation only) */}
+                    <div className="mt-1 flex flex-col items-center justify-center w-full pb-0.5">
+                      <span className="text-[10.5px] font-extrabold text-slate-900 leading-tight text-center">
+                        {minister.name}
+                      </span>
+                      <span className="mt-0.5 text-[8.5px] font-semibold text-slate-600 leading-tight text-center">
+                        {minister.title}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* State Seal & National Emblem - Prominent Sizing */}
+              <div className="hidden sm:flex shrink-0 items-center gap-3 border-l border-border/60 pl-3 sm:pl-4">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={ASSET_METADATA.seal.src}
+                    alt={ASSET_METADATA.seal.alt}
+                    width={64}
+                    height={64}
+                    className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src !== ASSET_METADATA.seal.fallback) {
+                        target.src = ASSET_METADATA.seal.fallback;
+                      }
+                    }}
+                  />
+                  <span className="mt-0.5 text-[9px] font-bold text-muted-foreground tracking-tighter">महाराष्ट्र शासन</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <img
+                    src={ASSET_METADATA.emblem.src}
+                    alt={ASSET_METADATA.emblem.alt}
+                    width={56}
+                    height={64}
+                    className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src !== ASSET_METADATA.emblem.fallback) {
+                        target.src = ASSET_METADATA.emblem.fallback;
+                      }
+                    }}
+                  />
+                  <span className="mt-0.5 text-[9px] font-bold text-muted-foreground tracking-tighter">सत्यमेव जयते</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Primary Red Navigation Bar */}
         <div className="sticky top-0 z-40 bg-gradient-to-r from-primary to-[oklch(0.32_0.14_24)] shadow-md">
-          <div className="mx-auto flex min-h-13 max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex min-h-11 max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -214,7 +285,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <input
                   type="text"
                   placeholder="Search services..."
-                  className="h-9 w-full rounded-full border border-white/20 bg-white/95 pl-9 pr-4 text-xs font-medium text-foreground placeholder:text-muted-foreground transition-all duration-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
+                  className="h-8 w-full rounded-full border border-white/20 bg-white/95 pl-9 pr-4 text-xs font-medium text-foreground placeholder:text-muted-foreground transition-all duration-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
                 />
               </div>
 
@@ -229,7 +300,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Bell className="size-4" />
                   <span className="absolute right-2 top-2 size-2 rounded-full bg-amber-400 ring-2 ring-primary" />
                 </Button>
-                <div className="ml-1.5 hidden items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-white backdrop-blur-xs transition-colors hover:bg-white/15 lg:flex">
+                <div className="ml-1.5 hidden items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-white backdrop-blur-xs transition-colors hover:bg-white/15 lg:flex">
                   <UserRound className="size-3.5 text-amber-300" />
                   <span className="text-xs font-semibold">State Directorate</span>
                 </div>
