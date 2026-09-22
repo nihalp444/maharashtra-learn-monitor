@@ -10,89 +10,121 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AssessmentAnalyticsRouteImport } from './routes/assessment-analytics'
-import { Route as DistrictAnalyticsRouteImport } from './routes/district-analytics'
-import { Route as LearningProgramsRouteImport } from './routes/learning-programs'
-import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAssessmentAnalyticsRouteImport } from './routes/_authenticated/assessment-analytics'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDistrictAnalyticsRouteImport } from './routes/_authenticated/district-analytics'
+import { Route as AuthenticatedLearningProgramsRouteImport } from './routes/_authenticated/learning-programs'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AssessmentAnalyticsRoute = AssessmentAnalyticsRouteImport.update({
-  id: '/assessment-analytics',
-  path: '/assessment-analytics',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DistrictAnalyticsRoute = DistrictAnalyticsRouteImport.update({
-  id: '/district-analytics',
-  path: '/district-analytics',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LearningProgramsRoute = LearningProgramsRouteImport.update({
-  id: '/learning-programs',
-  path: '/learning-programs',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedAssessmentAnalyticsRoute =
+  AuthenticatedAssessmentAnalyticsRouteImport.update({
+    id: '/assessment-analytics',
+    path: '/assessment-analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ReportsRoute = ReportsRouteImport.update({
+const AuthenticatedDistrictAnalyticsRoute =
+  AuthenticatedDistrictAnalyticsRouteImport.update({
+    id: '/district-analytics',
+    path: '/district-analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLearningProgramsRoute =
+  AuthenticatedLearningProgramsRouteImport.update({
+    id: '/learning-programs',
+    path: '/learning-programs',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/assessment-analytics': typeof AssessmentAnalyticsRoute
-  '/district-analytics': typeof DistrictAnalyticsRoute
-  '/learning-programs': typeof LearningProgramsRoute
-  '/reports': typeof ReportsRoute
+  '/auth': typeof AuthRoute
+  '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
+  '/learning-programs': typeof AuthenticatedLearningProgramsRoute
+  '/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/assessment-analytics': typeof AssessmentAnalyticsRoute
-  '/district-analytics': typeof DistrictAnalyticsRoute
-  '/learning-programs': typeof LearningProgramsRoute
-  '/reports': typeof ReportsRoute
+  '/auth': typeof AuthRoute
+  '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
+  '/learning-programs': typeof AuthenticatedLearningProgramsRoute
+  '/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/assessment-analytics': typeof AssessmentAnalyticsRoute
-  '/district-analytics': typeof DistrictAnalyticsRoute
-  '/learning-programs': typeof LearningProgramsRoute
-  '/reports': typeof ReportsRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
+  '/_authenticated/learning-programs': typeof AuthenticatedLearningProgramsRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/assessment-analytics'
+    | '/dashboard'
     | '/district-analytics'
     | '/learning-programs'
     | '/reports'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/assessment-analytics'
+    | '/dashboard'
     | '/district-analytics'
     | '/learning-programs'
     | '/reports'
   id:
     | '__root__'
     | '/'
-    | '/assessment-analytics'
-    | '/district-analytics'
-    | '/learning-programs'
-    | '/reports'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/assessment-analytics'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/district-analytics'
+    | '/_authenticated/learning-programs'
+    | '/_authenticated/reports'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AssessmentAnalyticsRoute: typeof AssessmentAnalyticsRoute
-  DistrictAnalyticsRoute: typeof DistrictAnalyticsRoute
-  LearningProgramsRoute: typeof LearningProgramsRoute
-  ReportsRoute: typeof ReportsRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -104,43 +136,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/assessment-analytics': {
-      id: '/assessment-analytics'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/assessment-analytics': {
+      id: '/_authenticated/assessment-analytics'
       path: '/assessment-analytics'
       fullPath: '/assessment-analytics'
-      preLoaderRoute: typeof AssessmentAnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAssessmentAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/district-analytics': {
-      id: '/district-analytics'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/district-analytics': {
+      id: '/_authenticated/district-analytics'
       path: '/district-analytics'
       fullPath: '/district-analytics'
-      preLoaderRoute: typeof DistrictAnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDistrictAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/learning-programs': {
-      id: '/learning-programs'
+    '/_authenticated/learning-programs': {
+      id: '/_authenticated/learning-programs'
       path: '/learning-programs'
       fullPath: '/learning-programs'
-      preLoaderRoute: typeof LearningProgramsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedLearningProgramsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/reports': {
-      id: '/reports'
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
       path: '/reports'
       fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAssessmentAnalyticsRoute: typeof AuthenticatedAssessmentAnalyticsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDistrictAnalyticsRoute: typeof AuthenticatedDistrictAnalyticsRoute
+  AuthenticatedLearningProgramsRoute: typeof AuthenticatedLearningProgramsRoute
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAssessmentAnalyticsRoute: AuthenticatedAssessmentAnalyticsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDistrictAnalyticsRoute: AuthenticatedDistrictAnalyticsRoute,
+  AuthenticatedLearningProgramsRoute: AuthenticatedLearningProgramsRoute,
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AssessmentAnalyticsRoute: AssessmentAnalyticsRoute,
-  DistrictAnalyticsRoute: DistrictAnalyticsRoute,
-  LearningProgramsRoute: LearningProgramsRoute,
-  ReportsRoute: ReportsRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

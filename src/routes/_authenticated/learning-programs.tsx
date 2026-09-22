@@ -7,7 +7,7 @@ import { ProgramCards } from "@/components/mis/program-cards";
 import { SectionCard } from "@/components/mis/section-card";
 import { misService, type AgeGroupId } from "@/features/mis/mock-service";
 
-export const Route = createFileRoute("/learning-programs")({
+export const Route = createFileRoute("/_authenticated/learning-programs")({
   head: () => ({
     meta: [
       { title: "Learning Programs | Maharashtra Learning MIS" },
