@@ -111,7 +111,7 @@ const colorThemes: Record<string, ColorTheme> = {
   },
 };
 
-const defaultTheme: ColorTheme = colorThemes["program-blue"];
+const defaultTheme = colorThemes["program-blue"];
 
 export function ProgramCards({
   programs,
@@ -132,7 +132,8 @@ export function ProgramCards({
     >
       {programs.map((program) => {
         const Icon = icons[program.id] ?? BrainCircuit;
-        const theme: ColorTheme = colorThemes[program.color] ?? defaultTheme;
+        const theme = colorThemes[program.color] ?? defaultTheme;
+        if (!theme) return null;
         const targetUrl = KLASSROOM_LINKS[program.linkKey] ?? "https://www.klassroom.in/klassroom-ott/";
 
         return (
