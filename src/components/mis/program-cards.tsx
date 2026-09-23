@@ -9,12 +9,15 @@ import {
   ExternalLink,
   HeartHandshake,
   Microscope,
+  PlayCircle,
   Puzzle,
   Sigma,
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CourseVideoModal } from "@/components/mis/course-video-modal";
 import { KLASSROOM_LINKS } from "@/config/program-links";
 import { formatNumber, type LearningProgram } from "@/features/mis/mock-service";
 
@@ -120,27 +123,32 @@ export function ProgramCards({
   programs: LearningProgram[];
   detailed?: boolean;
 }) {
-  return (
-    <div
-      className={`grid gap-4 sm:gap-5 ${
-        programs.length === 4
-          ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
-          : detailed
-            ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
-            : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-      }`}
-    >
-      {programs.map((program) => {
-        const Icon = icons[program.id] ?? BrainCircuit;
-        const theme = colorThemes[program.color] ?? defaultTheme;
-        if (!theme) return null;
-        const targetUrl = KLASSROOM_LINKS[program.linkKey] ?? "https://www.klassroom.in/klassroom-ott/";
+  const [selectedProgramForVideo, setSelectedProgramForVideo] =
+    useState<LearningProgram | null>(null);
 
-        return (
-          <article
-            key={program.id}
-            className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${theme.cardBorder} ${theme.cardHoverBorder} ${theme.cardHoverShadow}`}
-          >
+  return (
+    <>
+      <div
+        className={`grid gap-4 sm:gap-5 ${
+          programs.length === 4
+            ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+            : detailed
+              ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+              : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+        }`}
+      >
+        {programs.map((program) => {
+          const Icon = icons[program.id] ?? BrainCircuit;
+          const theme = colorThemes[program.color] ?? defaultTheme;
+          if (!theme) return null;
+          const targetUrl = KLASSROOM_LINKS[program.linkKey] ?? "https://www.klassroom.in/klassroom-ott/";
+
+          return (
+            <article
+              key={program.id}
+              onClick={() => setSelectedProgramForVideo(program)}
+              className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer ${theme.cardBorder} ${theme.cardHoverBorder} ${theme.cardHoverShadow}`}
+            >
             {/* Top Accent Stripe */}
             <div className={`h-1 w-full ${theme.accentBar}`} />
 
@@ -236,21 +244,36 @@ export function ProgramCards({
             </div>
 
             {/* Action Footer */}
-            <div className="border-t border-slate-100 bg-slate-50/50 px-3.5 py-2.5 sm:px-4 sm:py-3">
+            <div className="border-t border-slate-100 bg-slate-50/50 px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2">
+              <Button
+                type="button"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedProgramForVideo(program);
+                }}
+                className="h-8.5 flex-1 justify-center gap-1.5 rounded-lg bg-primary hover:bg-primary/95 text-white font-bold text-xs transition-all shadow-xs"
+              >
+                <PlayCircle className="size-3.5" />
+                <span>Watch Lectures</span>
+              </Button>
+
               <Button
                 size="sm"
                 variant="outline"
                 asChild
-                className={`h-8.5 w-full justify-center gap-1.5 rounded-lg bg-white font-semibold text-xs transition-all shadow-2xs ${theme.buttonBg}`}
+                onClick={(e) => e.stopPropagation()}
+                className={`h-8.5 px-3 justify-center gap-1 rounded-lg bg-white font-semibold text-xs transition-all shadow-2xs ${theme.buttonBg}`}
+                title="Explore curriculum on Klassroom OTT"
               >
                 <a
                   href={targetUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-1"
                 >
-                  <span>Explore on Klassroom</span>
-                  <ExternalLink className="size-3.5 shrink-0 opacity-70" />
+                  <span className="hidden sm:inline">Klassroom</span>
+                  <ExternalLink className="size-3 shrink-0 opacity-70" />
                 </a>
               </Button>
             </div>
@@ -258,5 +281,13 @@ export function ProgramCards({
         );
       })}
     </div>
+
+    {/* Video Player & Curriculum Modal */}
+    <CourseVideoModal
+      isOpen={selectedProgramForVideo !== null}
+      onClose={() => setSelectedProgramForVideo(null)}
+      program={selectedProgramForVideo}
+    />
+  </>
   );
 }
