@@ -22,12 +22,17 @@ import {
   getGoogleDriveEmbedUrl,
   ROOT_DRIVE_FOLDER,
 } from "@/config/course-videos";
-import type { LearningProgram } from "@/features/mis/models";
+export interface ProgramVideoTarget {
+  id: string;
+  name: string;
+  ageGroup?: string;
+  description?: string;
+}
 
 interface CourseVideoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  program: LearningProgram | null;
+  program: ProgramVideoTarget | LearningProgram | null;
 }
 
 export function CourseVideoModal({
@@ -41,7 +46,7 @@ export function CourseVideoModal({
     return getCourseCurriculum(
       program.id,
       program.name,
-      program.ageGroup as "6-10" | "11-14" | "15-18"
+      (program.ageGroup as "6-10" | "11-14" | "15-18") || "11-14"
     );
   }, [program]);
 
@@ -66,9 +71,18 @@ export function CourseVideoModal({
 
   // Whenever the program changes or modal opens, reset to the first video
   useEffect(() => {
-    const defaultLang = curriculum.defaultLanguage || "en";
-    setSelectedLanguage(defaultLang);
-    const inLang = curriculum.videos.find((v) => v.language === defaultLang);
+    const hasEnglish = curriculum.videos.some((v) => v.language === "en");
+    const hasMarathi = curriculum.videos.some((v) => v.language === "mr");
+
+    let initialLang: "en" | "mr" = curriculum.defaultLanguage || "en";
+    if (initialLang === "en" && !hasEnglish && hasMarathi) {
+      initialLang = "mr";
+    } else if (initialLang === "mr" && !hasMarathi && hasEnglish) {
+      initialLang = "en";
+    }
+
+    setSelectedLanguage(initialLang);
+    const inLang = curriculum.videos.find((v) => v.language === initialLang);
     setActiveVideo(inLang || curriculum.videos[0]);
   }, [program.id, curriculum]);
 

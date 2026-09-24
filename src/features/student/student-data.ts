@@ -230,18 +230,6 @@ export const STUDENT_ACCOUNTS: Record<string, StudentProfile> = {
         currentLecture: "Lecture 5: Nested Loops & Conditional Blocks",
         thumbnailColor: "from-amber-600 to-yellow-600",
       },
-      {
-        id: "logic-reasoning",
-        name: "Logical Reasoning",
-        category: "Mental Ability & Puzzles",
-        progress: 45,
-        learningHours: 4.5,
-        totalModules: 12,
-        completedModules: 5,
-        currentModule: "Module 2: Number Series & Venn Diagrams",
-        currentLecture: "Lecture 4: Logical Deductions",
-        thumbnailColor: "from-purple-600 to-violet-600",
-      },
     ],
     upcomingAssessment: {
       id: "asm-11-01",

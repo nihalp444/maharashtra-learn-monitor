@@ -182,20 +182,6 @@ export const programs: LearningProgram[] = [
     color: "program-amber",
     linkKey: "digitalSkills1114",
   },
-  {
-    id: "logic-reasoning",
-    ageGroup: "11-14",
-    name: "Logical Reasoning",
-    fullName: "Mental Ability & Pattern Recognition",
-    description: "Verbal and non-verbal reasoning, deductive puzzles, sequence analysis and competitive exam foundation drills.",
-    enrolledStudents: 24600,
-    activeStudents: 19100,
-    engagement: 77,
-    completion: 67,
-    learningHours: 68900,
-    color: "program-purple",
-    linkKey: "logicalReasoning1114",
-  },
 
   // --- Age 15–18 ---
   {
@@ -262,7 +248,6 @@ export const assessmentList: AssessmentItem[] = [
   { id: "asm-mp-1", name: "Algebraic Reasoning & Fractions Mastery", programId: "math-11-14", ageGroup: "11-14" },
   { id: "asm-sd-1", name: "Physical Science Principles Assessment", programId: "science-11-14", ageGroup: "11-14" },
   { id: "asm-dt-1", name: "Digital Safety & Logic Block Evaluation", programId: "digital-tech", ageGroup: "11-14" },
-  { id: "asm-lr-1", name: "Mental Ability & Pattern Speed Test", programId: "logic-reasoning", ageGroup: "11-14" },
 
   // 15-18
   { id: "asm-ai-1", name: "Python & Machine Learning Baseline Evaluation", programId: "ai-ml", ageGroup: "15-18" },

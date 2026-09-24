@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { CourseVideoModal, type ProgramVideoTarget } from "@/components/mis/course-video-modal";
 import type { StudentProfile } from "@/features/student/student-data";
 
 interface StudentDashboardProps {
@@ -33,6 +34,9 @@ export function StudentDashboard({ student }: StudentDashboardProps) {
     title: string;
     subtitle: string;
   } | null>(null);
+
+  const [selectedVideoProgram, setSelectedVideoProgram] =
+    useState<ProgramVideoTarget | null>(null);
 
   const { continueLearning, kpis, courses, upcomingAssessment, achievements } = student;
 
@@ -213,10 +217,11 @@ export function StudentDashboard({ student }: StudentDashboardProps) {
             <div className="shrink-0 flex items-center">
               <Button
                 onClick={() =>
-                  setActiveModal({
-                    type: "course",
-                    title: continueLearning.courseName,
-                    subtitle: continueLearning.currentLecture,
+                  setSelectedVideoProgram({
+                    id: continueLearning.courseId,
+                    name: continueLearning.courseName,
+                    ageGroup: student.ageGroup,
+                    description: `${continueLearning.currentModule} · ${continueLearning.currentLecture}`,
                   })
                 }
                 className="w-full sm:w-auto h-11 px-6 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
@@ -305,10 +310,11 @@ export function StudentDashboard({ student }: StudentDashboardProps) {
                 <Button
                   variant={course.progress > 0 ? "default" : "outline"}
                   onClick={() =>
-                    setActiveModal({
-                      type: "course",
-                      title: course.name,
-                      subtitle: `${course.currentModule} · ${course.currentLecture}`,
+                    setSelectedVideoProgram({
+                      id: course.id,
+                      name: course.name,
+                      ageGroup: student.ageGroup,
+                      description: `${course.currentModule} · ${course.currentLecture}`,
                     })
                   }
                   className={`w-full h-9 rounded-lg text-xs font-bold transition-all ${
@@ -317,7 +323,8 @@ export function StudentDashboard({ student }: StudentDashboardProps) {
                       : "border-primary text-primary hover:bg-primary/5"
                   }`}
                 >
-                  {course.progress > 0 ? "Continue Learning" : "Start Learning"}
+                  <PlayCircle className="size-3.5 mr-1" />
+                  <span>{course.progress > 0 ? "Continue Learning" : "Start Learning"}</span>
                 </Button>
               </div>
             </div>
@@ -531,6 +538,13 @@ export function StudentDashboard({ student }: StudentDashboardProps) {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Direct Google Drive Course Video Player Modal */}
+      <CourseVideoModal
+        isOpen={selectedVideoProgram !== null}
+        onClose={() => setSelectedVideoProgram(null)}
+        program={selectedVideoProgram}
+      />
     </div>
   );
 }
