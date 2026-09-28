@@ -555,71 +555,70 @@ export function AppShell({ children }: { children: ReactNode }) {
 
             {/* Right: Ministers and State Seal & Emblem */}
             <div className="flex shrink-0 items-center gap-3 sm:gap-4 lg:gap-5">
-              {/* Ministers Grid */}
-              <div className="hidden md:flex items-stretch gap-1.5 lg:gap-2.5">
-                {ASSET_METADATA.ministers.map((minister) => (
-                  <div
-                    key={minister.name}
-                    className="flex flex-col items-center text-center w-[114px] lg:w-[124px] rounded-xl bg-white border border-[#eae5dd] p-1 shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-xs"
-                  >
-                    <div className="relative h-[66px] w-full overflow-hidden rounded-lg bg-[#ece7df]">
-                      <img
-                        src={minister.src}
-                        alt={minister.alt}
-                        className="h-full w-full object-cover object-top"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          if (target.src !== minister.fallback) {
-                            target.src = minister.fallback;
-                          }
-                        }}
-                      />
+              {/* Officers & Ministers Header Display */}
+              <div className="hidden lg:flex items-center gap-2 xl:gap-3.5">
+                {/* Officers list (circular portraits, clean government styling) */}
+                <div className="flex items-start gap-1 xl:gap-2">
+                  {ASSET_METADATA.officers.map((officer) => (
+                    <div
+                      key={officer.name}
+                      className="flex flex-col items-center text-center w-[80px] xl:w-[86px] px-0.5"
+                    >
+                      <div className="relative size-[58px] xl:size-[64px] rounded-full overflow-hidden border border-slate-200/90 shadow-xs bg-[#eef2f6]">
+                        <img
+                          src={officer.src}
+                          alt={officer.alt}
+                          className="h-full w-full object-cover object-top"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (target.src !== officer.fallback) {
+                              target.src = officer.fallback;
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="mt-1 flex flex-col items-center justify-start w-full">
+                        <span className="text-[9.5px] xl:text-[10px] font-bold text-slate-800 leading-[1.15] text-center line-clamp-2">
+                          {officer.name}
+                        </span>
+                        <span className="mt-0.5 text-[8px] xl:text-[8.5px] font-medium text-slate-500 leading-[1.15] text-center line-clamp-3">
+                          {officer.title}
+                        </span>
+                      </div>
                     </div>
-                    <div className="mt-1 flex flex-col items-center justify-center w-full pb-0.5">
-                      <span className="text-[10.5px] font-extrabold text-slate-900 leading-tight text-center">
-                        {minister.name}
-                      </span>
-                      <span className="mt-0.5 text-[8.5px] font-semibold text-slate-600 leading-tight text-center">
-                        {minister.title}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* State Seal & National Emblem */}
-              <div className="hidden sm:flex shrink-0 items-center gap-3 border-l border-border/60 pl-3 sm:pl-4">
-                <div className="flex flex-col items-center">
-                  <img
-                    src={ASSET_METADATA.seal.src}
-                    alt={ASSET_METADATA.seal.alt}
-                    width={64}
-                    height={64}
-                    className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (target.src !== ASSET_METADATA.seal.fallback) {
-                        target.src = ASSET_METADATA.seal.fallback;
-                      }
-                    }}
-                  />
-                  <span className="mt-0.5 text-[9px] font-bold text-muted-foreground tracking-tighter">महाराष्ट्र शासन</span>
+                  ))}
                 </div>
-                <div className="flex flex-col items-center">
-                  <img
-                    src={ASSET_METADATA.emblem.src}
-                    alt={ASSET_METADATA.emblem.alt}
-                    width={56}
-                    height={64}
-                    className="h-14 w-auto object-contain drop-shadow-xs sm:h-16"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (target.src !== ASSET_METADATA.emblem.fallback) {
-                        target.src = ASSET_METADATA.emblem.fallback;
-                      }
-                    }}
-                  />
-                  <span className="mt-0.5 text-[9px] font-bold text-muted-foreground tracking-tighter">सत्यमेव जयते</span>
+
+                {/* 3 Ministers Cards (original styling restored: white card, slate text, no red background) */}
+                <div className="flex items-stretch gap-1.5 xl:gap-2.5 pl-1.5 border-l border-slate-200">
+                  {ASSET_METADATA.ministers.map((minister) => (
+                    <div
+                      key={minister.name}
+                      className="flex flex-col items-center text-center w-[112px] xl:w-[124px] rounded-xl bg-white border border-[#eae5dd] p-1 shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-xs"
+                    >
+                      <div className="relative h-[66px] w-full overflow-hidden rounded-lg bg-[#ece7df]">
+                        <img
+                          src={minister.src}
+                          alt={minister.alt}
+                          className="h-full w-full object-cover object-top"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (target.src !== minister.fallback) {
+                              target.src = minister.fallback;
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="mt-1 flex flex-col items-center justify-center w-full pb-0.5">
+                        <span className="text-[10.5px] font-extrabold text-slate-900 leading-tight text-center">
+                          {minister.name}
+                        </span>
+                        <span className="mt-0.5 text-[8.5px] font-semibold text-slate-600 leading-tight text-center">
+                          {minister.title}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

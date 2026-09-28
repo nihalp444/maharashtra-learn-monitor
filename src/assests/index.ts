@@ -4,6 +4,11 @@ import sealUrl from "./maharashtra-state-seal.png";
 import devendraFadnavisUrl from "./DevendraFadnavis-stockimage-18-thumbnail.png";
 import eknathShindeUrl from "./eknath-shinde.png";
 import sunetraPawarUrl from "./Sunetra pawar.png";
+import aakashFundkarUrl from "./Adv. Aakash Fundkar.jpeg";
+import ashishJaiswalUrl from "./Adv. Ashish Jaiswal.png";
+import rajeshAggarwalUrl from "./Shri. Rajesh Aggarwal.jpg";
+import iaKundanUrl from "./Smt. I. A. Kundan (IAS).jpeg";
+import vivekKumbharUrl from "./Shri. Vivek Shankar Kumbhar.png";
 
 export const MAHABOCW_LOGO_SRC = mahabocwLogoUrl;
 export const MAHARASHTRA_EMBLEM_SRC = emblemUrl;
@@ -25,13 +30,50 @@ export const ASSET_METADATA = {
     fallback: "/maharashtra-government-emblem.png",
     alt: "Government of India State Emblem (सत्यमेव जयते)",
   },
+  officers: [
+    {
+      name: "Shri. Vivek Shankar Kumbhar",
+      title: "Secretary cum Chief Executive Officer, MBOCWWB",
+      src: vivekKumbharUrl,
+      fallback: "/Shri. Vivek Shankar Kumbhar.png",
+      alt: "Shri. Vivek Shankar Kumbhar - Secretary cum Chief Executive Officer, MBOCWWB",
+    },
+    {
+      name: "Smt. I. A. Kundan (IAS)",
+      title: "Hon. Principal Secretary (Labour)",
+      src: iaKundanUrl,
+      fallback: "/Smt. I. A. Kundan (IAS).jpeg",
+      alt: "Smt. I. A. Kundan (IAS) - Hon. Principal Secretary (Labour)",
+    },
+    {
+      name: "Shri. Rajesh Aggarwal",
+      title: "Hon. Chief Secretary, State of Maharashtra",
+      src: rajeshAggarwalUrl,
+      fallback: "/Shri. Rajesh Aggarwal.jpg",
+      alt: "Shri. Rajesh Aggarwal - Hon. Chief Secretary, State of Maharashtra",
+    },
+    {
+      name: "Adv. Ashish Jaiswal",
+      title: "Hon. Minister of State (Labour)",
+      src: ashishJaiswalUrl,
+      fallback: "/Adv. Ashish Jaiswal.png",
+      alt: "Adv. Ashish Jaiswal - Hon. Minister of State (Labour)",
+    },
+    {
+      name: "Adv. Aakash Fundkar",
+      title: "Hon. Minister (Labour)",
+      src: aakashFundkarUrl,
+      fallback: "/Adv. Aakash Fundkar.jpeg",
+      alt: "Adv. Aakash Fundkar - Hon. Minister (Labour)",
+    },
+  ],
   ministers: [
     {
-      name: "Shri Devendra Fadnavis",
-      title: "Hon'ble Chief Minister",
-      src: devendraFadnavisUrl,
-      fallback: "/devendra-fadnavis.png",
-      alt: "Shri Devendra Fadnavis - Hon'ble Chief Minister",
+      name: "Smt. Sunetra Pawar",
+      title: "Hon'ble Deputy Chief Minister",
+      src: sunetraPawarUrl,
+      fallback: "/sunetra-pawar.png",
+      alt: "Smt. Sunetra Pawar - Hon'ble Deputy Chief Minister",
     },
     {
       name: "Shri Eknath Shinde",
@@ -41,11 +83,11 @@ export const ASSET_METADATA = {
       alt: "Shri Eknath Shinde - Hon'ble Deputy Chief Minister",
     },
     {
-      name: "Smt. Sunetra Pawar",
-      title: "Hon'ble Deputy Chief Minister",
-      src: sunetraPawarUrl,
-      fallback: "/sunetra-pawar.png",
-      alt: "Smt. Sunetra Pawar - Hon'ble Deputy Chief Minister",
+      name: "Shri Devendra Fadnavis",
+      title: "Hon'ble Chief Minister",
+      src: devendraFadnavisUrl,
+      fallback: "/devendra-fadnavis.png",
+      alt: "Shri Devendra Fadnavis - Hon'ble Chief Minister",
     },
   ],
 };
