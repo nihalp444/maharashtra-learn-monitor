@@ -5,10 +5,14 @@ import {
   Bell,
   BookOpenCheck,
   Building2,
+  CalendarCheck2,
   CheckCircle,
   ChevronDown,
   ClipboardCheck,
+  Edit3,
+  Globe2,
   GraduationCap,
+  Heart,
   LayoutDashboard,
   LockKeyhole,
   LogOut,
@@ -16,17 +20,32 @@ import {
   Menu,
   Phone,
   Power,
+  RotateCcw,
   Search,
   Settings,
   Shield,
   Sliders,
   Sparkles,
+  Trophy,
   User,
   UserRound,
   X,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { LearningPreferencesModal } from "@/components/student/learning-preferences-modal";
+import { studentPreferencesService } from "@/features/student/student-preferences-service";
+import type { StudentAgeGroup } from "@/features/student/student-data";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,6 +67,7 @@ import { ASSET_METADATA } from "@/assests";
 import { FloatingChatbot } from "@/components/mis/floating-chatbot";
 import { supabase } from "@/integrations/supabase/client";
 import { STUDENT_ACCOUNTS, isStudentUsername } from "@/features/student/student-data";
+import { useI18n } from "@/i18n";
 
 export interface UserSessionInfo {
   name: string;
@@ -63,6 +83,7 @@ export interface UserSessionInfo {
 
 const adminNav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/leadership", label: "Leadership", icon: Trophy },
   { to: "/district-analytics", label: "District Analytics", icon: Building2 },
   { to: "/learning-programs", label: "Learning Programs", icon: BookOpenCheck },
   { to: "/assessment-analytics", label: "Assessment Analytics", icon: ClipboardCheck },
@@ -70,11 +91,12 @@ const adminNav = [
 ] as const;
 
 const studentNav = [
-  { targetId: "home", label: "Home", icon: LayoutDashboard },
-  { targetId: "my-learning", label: "My Learning", icon: BookOpenCheck },
-  { targetId: "assessments", label: "Assessments", icon: ClipboardCheck },
-  { targetId: "my-progress", label: "My Progress", icon: BarChart3 },
-  { targetId: "achievements", label: "Achievements", icon: Award },
+  { to: "/dashboard", targetId: "home", labelKey: "navHome" as const, icon: LayoutDashboard },
+  { to: "/dashboard#my-learning", targetId: "my-learning", labelKey: "navMyLearning" as const, icon: BookOpenCheck },
+  { to: "/course-planner", targetId: "course-planner", labelKey: "navCoursePlanner" as const, icon: CalendarCheck2 },
+  { to: "/assessments-scholarships", targetId: "assessments", labelKey: "navAssessmentsScholarships" as const, icon: ClipboardCheck },
+  { to: "/dashboard#my-progress", targetId: "my-progress", labelKey: "navMyProgress" as const, icon: BarChart3 },
+  { to: "/achievements-leadership", targetId: "achievements", labelKey: "navAchievementsLeadership" as const, icon: Trophy },
 ] as const;
 
 function Navigation({
@@ -85,6 +107,7 @@ function Navigation({
   onNavigate?: () => void;
 }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { t } = useI18n();
 
   if (userInfo.isStudent) {
     return (
@@ -94,23 +117,42 @@ function Navigation({
       >
         {studentNav.map((item) => {
           const Icon = item.icon;
+          const isDirectPage = !item.to.includes("#");
+          const active = isDirectPage
+            ? pathname === item.to
+            : pathname === "/dashboard" && item.targetId === "home";
+
           return (
             <button
-              key={item.targetId}
+              key={item.labelKey}
               type="button"
               onClick={() => {
                 onNavigate?.();
+                if (isDirectPage) {
+                  window.location.href = item.to;
+                  return;
+                }
+                if (pathname !== "/dashboard") {
+                  window.location.href = item.to;
+                  return;
+                }
                 const el = document.getElementById(item.targetId);
                 if (el) {
                   el.scrollIntoView({ behavior: "smooth" });
-                } else if (pathname !== "/dashboard" && pathname !== "/") {
-                  window.location.href = `/dashboard#${item.targetId}`;
+                } else {
+                  window.location.href = item.to;
                 }
               }}
-              className="relative flex min-h-9 items-center gap-2 rounded-lg px-3.5 py-1.5 text-[13px] font-semibold tracking-wide text-white/90 hover:bg-white/10 hover:text-white transition-all duration-150 md:min-h-10 cursor-pointer"
+              className={`relative flex min-h-9 items-center gap-2 rounded-lg px-3.5 py-1.5 text-[13px] font-semibold tracking-wide transition-all duration-150 md:min-h-10 cursor-pointer ${active
+                  ? "bg-white/18 text-white shadow-xs font-bold"
+                  : "text-white/85 hover:bg-white/10 hover:text-white"
+                }`}
             >
-              <Icon className="size-4 opacity-90" />
-              <span>{item.label}</span>
+              <Icon className={`size-4 transition-transform duration-150 ${active ? "scale-105" : "opacity-85"}`} />
+              <span>{t(item.labelKey)}</span>
+              {active && (
+                <span className="hidden md:block absolute -bottom-[5px] left-3 right-3 h-[3px] rounded-full bg-amber-400" />
+              )}
             </button>
           );
         })}
@@ -128,11 +170,10 @@ function Navigation({
             key={item.to}
             to={item.to}
             onClick={onNavigate}
-            className={`relative flex min-h-9 items-center gap-2 rounded-lg px-3.5 py-1.5 text-[13px] font-semibold tracking-wide transition-all duration-150 md:min-h-10 ${
-              active
+            className={`relative flex min-h-9 items-center gap-2 rounded-lg px-3.5 py-1.5 text-[13px] font-semibold tracking-wide transition-all duration-150 md:min-h-10 ${active
                 ? "bg-white/18 text-white shadow-xs font-bold"
                 : "text-white/85 hover:bg-white/10 hover:text-white"
-            }`}
+              }`}
           >
             <Icon className={`size-4 transition-transform duration-150 ${active ? "scale-105" : "opacity-80"}`} />
             <span>{item.label}</span>
@@ -150,6 +191,29 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
   const [loggingOut, setLoggingOut] = useState(false);
   const [profileDialogOpen, setProfileDialogOpen] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+  const [preferencesModalOpen, setPreferencesModalOpen] = useState(false);
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
+  const [studentPreferences, setStudentPreferences] = useState(() =>
+    userInfo.username ? studentPreferencesService.getPreferences(userInfo.username) : null
+  );
+
+  useEffect(() => {
+    if (userInfo.username) {
+      setStudentPreferences(studentPreferencesService.getPreferences(userInfo.username));
+      const unsubscribe = studentPreferencesService.subscribe(({ username, preferences }) => {
+        if (username === userInfo.username) {
+          setStudentPreferences(preferences);
+        }
+      });
+      return unsubscribe;
+    }
+  }, [userInfo.username]);
+
+  useEffect(() => {
+    if (profileDialogOpen && userInfo.username) {
+      setStudentPreferences(studentPreferencesService.getPreferences(userInfo.username));
+    }
+  }, [profileDialogOpen, userInfo.username]);
 
   async function handleLogout() {
     try {
@@ -268,7 +332,7 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
 
       {/* Profile Modal Dialog */}
       <Dialog open={profileDialogOpen} onOpenChange={setProfileDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <div className="grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
@@ -288,55 +352,148 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="rounded-xl border border-border bg-muted/40 p-4 space-y-3.5">
-            <div className="flex items-center gap-3">
-              <div className={`grid size-12 place-items-center rounded-full ${userInfo.isStudent ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-600"} font-black text-lg shadow-sm`}>
-                {userInfo.isStudent ? <GraduationCap className="size-6" /> : <User className="size-6" />}
+          <div className="space-y-3.5">
+            {/* Account Details Box */}
+            <div className="rounded-xl border border-border bg-muted/40 p-4 space-y-3.5">
+              <div className="flex items-center gap-3">
+                <div className={`grid size-12 place-items-center rounded-full ${userInfo.isStudent ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-600"} font-black text-lg shadow-sm`}>
+                  {userInfo.isStudent ? <GraduationCap className="size-6" /> : <User className="size-6" />}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-bold text-foreground capitalize truncate">{userInfo.name}</p>
+                    <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                      Active
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground font-mono truncate">{userInfo.email}</p>
+                </div>
               </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-bold text-foreground capitalize truncate">{userInfo.name}</p>
-                  <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                    Active
+
+              <div className="border-t border-border/80 pt-3 grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <span className="text-[11px] font-medium text-muted-foreground block">
+                    {userInfo.isStudent ? "Student ID" : "Department"}
+                  </span>
+                  <span className="font-semibold text-foreground">
+                    {userInfo.isStudent ? (userInfo.studentId || "MH-STU-001") : "MBOCWWB Maharashtra"}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground font-mono truncate">{userInfo.email}</p>
+                <div>
+                  <span className="text-[11px] font-medium text-muted-foreground block">
+                    {userInfo.isStudent ? "Registered Age Group" : "Role"}
+                  </span>
+                  <span className="font-semibold text-primary">
+                    {userInfo.isStudent ? (userInfo.ageGroupLabel || "Age Group: 11–14") : userInfo.role}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[11px] font-medium text-muted-foreground block">
+                    {userInfo.isStudent ? "District" : "Coverage"}
+                  </span>
+                  <span className="font-semibold text-foreground">
+                    {userInfo.isStudent ? (userInfo.district || "Maharashtra") : "All 36 Districts"}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[11px] font-medium text-muted-foreground block">Authentication</span>
+                  <span className="font-semibold text-emerald-600 flex items-center gap-1">
+                    <CheckCircle className="size-3" />
+                    {userInfo.isStudent ? "Verified Student" : "Verified Admin"}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="border-t border-border/80 pt-3 grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <span className="text-[11px] font-medium text-muted-foreground block">
-                  {userInfo.isStudent ? "Student ID" : "Department"}
-                </span>
-                <span className="font-semibold text-foreground">
-                  {userInfo.isStudent ? (userInfo.studentId || "MH-STU-001") : "MBOCWWB Maharashtra"}
-                </span>
+            {/* Learning Preferences Section (Student Only) */}
+            {userInfo.isStudent && (
+              <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-3 shadow-2xs">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                  <div className="flex items-center gap-2">
+                    <div className="grid size-7 place-items-center rounded-lg bg-primary/10 text-primary">
+                      <Heart className="size-4 fill-primary/20" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                        Learning Preferences
+                      </h4>
+                      <p className="text-[11px] text-slate-500">
+                        Personalized subject and language choices
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setProfileDialogOpen(false);
+                        setPreferencesModalOpen(true);
+                      }}
+                      className="h-8 px-2.5 rounded-lg text-xs font-bold text-primary border-primary/30 hover:bg-primary/5 flex items-center gap-1 cursor-pointer"
+                    >
+                      <Edit3 className="size-3.5" />
+                      <span>Edit Preferences</span>
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setResetConfirmOpen(true)}
+                      className="h-8 px-2.5 rounded-lg text-xs font-bold text-rose-600 border-rose-200 hover:bg-rose-50 hover:text-rose-700 flex items-center gap-1 cursor-pointer"
+                    >
+                      <RotateCcw className="size-3.5" />
+                      <span>Reset Preferences</span>
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="rounded-lg bg-slate-50 border border-slate-100 p-3 space-y-2.5 text-xs">
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide block mb-1.5">
+                      Favourite Subjects:
+                    </span>
+                    {studentPreferences && studentPreferences.favouriteSubjects && studentPreferences.favouriteSubjects.length > 0 ? (
+                      <div className="flex flex-wrap gap-1.5">
+                        {studentPreferences.favouriteSubjects.map((subject) => (
+                          <span
+                            key={subject}
+                            className="inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1 text-[11px] font-bold text-slate-800 border border-slate-200 shadow-2xs"
+                          >
+                            <Sparkles className="size-3 text-amber-500" />
+                            {subject}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 text-amber-800 bg-amber-50 border border-amber-200/60 rounded-md p-2 text-[11px] font-semibold">
+                        <RotateCcw className="size-3 text-amber-600" />
+                        <span>No favourite subjects selected (Preferences have been reset)</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                      Preferred Language:
+                    </span>
+                    <span className="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                      <Globe2 className="size-3.5 text-blue-600" />
+                      {studentPreferences && studentPreferences.preferredLanguage ? (
+                        <span className="rounded bg-blue-50 text-blue-700 px-2 py-0.5 border border-blue-200/60 font-bold">
+                          {studentPreferences.preferredLanguage}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400 font-normal italic">Not configured</span>
+                      )}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <span className="text-[11px] font-medium text-muted-foreground block">
-                  {userInfo.isStudent ? "Registered Age Group" : "Role"}
-                </span>
-                <span className="font-semibold text-primary">
-                  {userInfo.isStudent ? (userInfo.ageGroupLabel || "Age Group: 11–14") : userInfo.role}
-                </span>
-              </div>
-              <div>
-                <span className="text-[11px] font-medium text-muted-foreground block">
-                  {userInfo.isStudent ? "District" : "Coverage"}
-                </span>
-                <span className="font-semibold text-foreground">
-                  {userInfo.isStudent ? (userInfo.district || "Maharashtra") : "All 36 Districts"}
-                </span>
-              </div>
-              <div>
-                <span className="text-[11px] font-medium text-muted-foreground block">Authentication</span>
-                <span className="font-semibold text-emerald-600 flex items-center gap-1">
-                  <CheckCircle className="size-3" />
-                  {userInfo.isStudent ? "Verified Student" : "Verified Admin"}
-                </span>
-              </div>
-            </div>
+            )}
           </div>
 
           <div className="flex justify-end pt-1">
@@ -352,6 +509,57 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Reset Preferences Confirmation Dialog */}
+      <AlertDialog open={resetConfirmOpen} onOpenChange={setResetConfirmOpen}>
+        <AlertDialogContent className="rounded-2xl sm:max-w-md">
+          <AlertDialogHeader>
+            <div className="mx-auto sm:mx-0 grid size-10 place-items-center rounded-xl bg-rose-100 text-rose-600 mb-1">
+              <RotateCcw className="size-5" />
+            </div>
+            <AlertDialogTitle className="text-base font-extrabold text-slate-900">
+              Reset Learning Preferences?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-slate-600 leading-relaxed">
+              Are you sure you want to reset your learning preferences? You will be asked to select your preferences again.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-4">
+            <AlertDialogCancel className="text-xs font-bold rounded-xl cursor-pointer">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                const username = userInfo.username || "aarav11";
+                const cleared = studentPreferencesService.resetPreferences(username);
+                setStudentPreferences(cleared);
+                setResetConfirmOpen(false);
+                setProfileDialogOpen(false);
+                // Immediately reopen Learning Preferences modal
+                setPreferencesModalOpen(true);
+              }}
+              className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl cursor-pointer"
+            >
+              Confirm Reset
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Learning Preferences Modal Dialog */}
+      {userInfo.isStudent && (
+        <LearningPreferencesModal
+          open={preferencesModalOpen}
+          onOpenChange={setPreferencesModalOpen}
+          username={userInfo.username || "aarav11"}
+          displayName={userInfo.name}
+          ageGroup={(userInfo.ageGroup as StudentAgeGroup) || "11-14"}
+          ageGroupLabel={userInfo.ageGroupLabel || "Age Group: 11–14"}
+          onSaved={(updated) => {
+            setStudentPreferences(updated);
+          }}
+        />
+      )}
 
       {/* Settings Modal Dialog triggered from popup */}
       <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
@@ -398,6 +606,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isAuthPage = pathname === "/auth" || pathname.startsWith("/auth/");
+  const { locale, setLocale, t } = useI18n();
 
   const [userInfo, setUserInfo] = useState<UserSessionInfo>({
     name: "Administrator",
@@ -505,9 +714,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="flex items-center gap-1.5 text-white/90">
-                <span className="font-semibold hover:text-white cursor-pointer transition-colors">English</span>
+                <button type="button" onClick={() => setLocale("en")} className={`transition-colors cursor-pointer ${locale === "en" ? "font-bold text-white underline underline-offset-2" : "font-medium hover:text-white"}`}>English</button>
                 <span className="text-white/40">|</span>
-                <span className="hover:text-white cursor-pointer transition-colors font-medium">मराठी</span>
+                <button type="button" onClick={() => setLocale("mr")} className={`transition-colors cursor-pointer ${locale === "mr" ? "font-bold text-white underline underline-offset-2" : "font-medium hover:text-white"}`}>मराठी</button>
               </div>
               <span className="text-white/30">|</span>
               <a
@@ -555,9 +764,41 @@ export function AppShell({ children }: { children: ReactNode }) {
 
             {/* Right: Ministers and State Seal & Emblem */}
             <div className="flex shrink-0 items-center gap-3 sm:gap-4 lg:gap-5">
-              {/* Officers & Ministers Header Display */}
+              {/* Officers & Ministers Header Display (CM & DCM on the left, followed by officers) */}
               <div className="hidden lg:flex items-center gap-2 xl:gap-3.5">
-                {/* Officers list (circular portraits, clean government styling) */}
+                {/* 3 Ministers Cards (CM then DCMs on the left) */}
+                <div className="flex items-stretch gap-1.5 xl:gap-2.5 pr-1.5 border-r border-slate-200">
+                  {ASSET_METADATA.ministers.map((minister) => (
+                    <div
+                      key={minister.name}
+                      className="flex flex-col items-center text-center w-[112px] xl:w-[124px] rounded-xl bg-white border border-[#eae5dd] p-1 shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-xs"
+                    >
+                      <div className="relative h-[66px] w-full overflow-hidden rounded-lg bg-[#ece7df]">
+                        <img
+                          src={minister.src}
+                          alt={minister.alt}
+                          className="h-full w-full object-cover object-top"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (target.src !== minister.fallback) {
+                              target.src = minister.fallback;
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="mt-1 flex flex-col items-center justify-center w-full pb-0.5">
+                        <span className="text-[10.5px] font-extrabold text-slate-900 leading-tight text-center">
+                          {minister.name}
+                        </span>
+                        <span className="mt-0.5 text-[8.5px] font-semibold text-slate-600 leading-tight text-center">
+                          {minister.title}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Officers list (circular portraits to the right of ministers) */}
                 <div className="flex items-start gap-1 xl:gap-2">
                   {ASSET_METADATA.officers.map((officer) => (
                     <div
@@ -583,38 +824,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                         </span>
                         <span className="mt-0.5 text-[8px] xl:text-[8.5px] font-medium text-slate-500 leading-[1.15] text-center line-clamp-3">
                           {officer.title}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* 3 Ministers Cards (original styling restored: white card, slate text, no red background) */}
-                <div className="flex items-stretch gap-1.5 xl:gap-2.5 pl-1.5 border-l border-slate-200">
-                  {ASSET_METADATA.ministers.map((minister) => (
-                    <div
-                      key={minister.name}
-                      className="flex flex-col items-center text-center w-[112px] xl:w-[124px] rounded-xl bg-white border border-[#eae5dd] p-1 shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-xs"
-                    >
-                      <div className="relative h-[66px] w-full overflow-hidden rounded-lg bg-[#ece7df]">
-                        <img
-                          src={minister.src}
-                          alt={minister.alt}
-                          className="h-full w-full object-cover object-top"
-                          onError={(e) => {
-                            const target = e.currentTarget;
-                            if (target.src !== minister.fallback) {
-                              target.src = minister.fallback;
-                            }
-                          }}
-                        />
-                      </div>
-                      <div className="mt-1 flex flex-col items-center justify-center w-full pb-0.5">
-                        <span className="text-[10.5px] font-extrabold text-slate-900 leading-tight text-center">
-                          {minister.name}
-                        </span>
-                        <span className="mt-0.5 text-[8.5px] font-semibold text-slate-600 leading-tight text-center">
-                          {minister.title}
                         </span>
                       </div>
                     </div>
@@ -662,7 +871,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/70" />
                   <input
                     type="text"
-                    placeholder="Search services..."
+                    placeholder={t("searchServices")}
                     className="h-8 w-full rounded-full border border-white/20 bg-white/95 pl-9 pr-4 text-xs font-medium text-foreground placeholder:text-muted-foreground transition-all duration-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-sm"
                   />
                 </div>
@@ -688,7 +897,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                     <input
                       type="text"
-                      placeholder="Search services..."
+                      placeholder={t("searchServices")}
                       className="h-9 w-full rounded-full border border-white/20 bg-white pl-9 pr-4 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-amber-400"
                     />
                   </div>
@@ -702,7 +911,10 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <main id="main-content" className={`flex-1 ${isAuthPage ? "" : "mx-auto w-full max-w-[1600px] pb-10"}`}>{children}</main>
 
-      {/* Floating Ask Me Chatbot (hidden on auth page) */}
+      {/* Floating Ask Me Chatbot */}
+      {!isAuthPage && <FloatingChatbot />}
+
+      {/* Footer */}
       {!isAuthPage && (
         <footer className="border-t border-border bg-card px-6 py-4 text-center text-xs text-muted-foreground">
           © 2026 Maharashtra Building and Other Construction Workers Welfare Board · Digital Learning MIS

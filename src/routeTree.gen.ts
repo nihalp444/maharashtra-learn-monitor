@@ -12,9 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAchievementsLeadershipRouteImport } from './routes/_authenticated/achievements-leadership'
 import { Route as AuthenticatedAssessmentAnalyticsRouteImport } from './routes/_authenticated/assessment-analytics'
+import { Route as AuthenticatedAssessmentsScholarshipsRouteImport } from './routes/_authenticated/assessments-scholarships'
+import { Route as AuthenticatedCoursePlannerRouteImport } from './routes/_authenticated/course-planner'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDistrictAnalyticsRouteImport } from './routes/_authenticated/district-analytics'
+import { Route as AuthenticatedLeadershipRouteImport } from './routes/_authenticated/leadership'
 import { Route as AuthenticatedLearningProgramsRouteImport } from './routes/_authenticated/learning-programs'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 
@@ -32,10 +36,28 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAchievementsLeadershipRoute =
+  AuthenticatedAchievementsLeadershipRouteImport.update({
+    id: '/achievements-leadership',
+    path: '/achievements-leadership',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAssessmentAnalyticsRoute =
   AuthenticatedAssessmentAnalyticsRouteImport.update({
     id: '/assessment-analytics',
     path: '/assessment-analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAssessmentsScholarshipsRoute =
+  AuthenticatedAssessmentsScholarshipsRouteImport.update({
+    id: '/assessments-scholarships',
+    path: '/assessments-scholarships',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCoursePlannerRoute =
+  AuthenticatedCoursePlannerRouteImport.update({
+    id: '/course-planner',
+    path: '/course-planner',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -49,6 +71,11 @@ const AuthenticatedDistrictAnalyticsRoute =
     path: '/district-analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedLeadershipRoute = AuthenticatedLeadershipRouteImport.update({
+  id: '/leadership',
+  path: '/leadership',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLearningProgramsRoute =
   AuthenticatedLearningProgramsRouteImport.update({
     id: '/learning-programs',
@@ -64,18 +91,26 @@ const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/achievements-leadership': typeof AuthenticatedAchievementsLeadershipRoute
   '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
+  '/assessments-scholarships': typeof AuthenticatedAssessmentsScholarshipsRoute
+  '/course-planner': typeof AuthenticatedCoursePlannerRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
+  '/leadership': typeof AuthenticatedLeadershipRoute
   '/learning-programs': typeof AuthenticatedLearningProgramsRoute
   '/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/achievements-leadership': typeof AuthenticatedAchievementsLeadershipRoute
   '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
+  '/assessments-scholarships': typeof AuthenticatedAssessmentsScholarshipsRoute
+  '/course-planner': typeof AuthenticatedCoursePlannerRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
+  '/leadership': typeof AuthenticatedLeadershipRoute
   '/learning-programs': typeof AuthenticatedLearningProgramsRoute
   '/reports': typeof AuthenticatedReportsRoute
 }
@@ -84,9 +119,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/achievements-leadership': typeof AuthenticatedAchievementsLeadershipRoute
   '/_authenticated/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
+  '/_authenticated/assessments-scholarships': typeof AuthenticatedAssessmentsScholarshipsRoute
+  '/_authenticated/course-planner': typeof AuthenticatedCoursePlannerRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/district-analytics': typeof AuthenticatedDistrictAnalyticsRoute
+  '/_authenticated/leadership': typeof AuthenticatedLeadershipRoute
   '/_authenticated/learning-programs': typeof AuthenticatedLearningProgramsRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
 }
@@ -95,18 +134,26 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/achievements-leadership'
     | '/assessment-analytics'
+    | '/assessments-scholarships'
+    | '/course-planner'
     | '/dashboard'
     | '/district-analytics'
+    | '/leadership'
     | '/learning-programs'
     | '/reports'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/achievements-leadership'
     | '/assessment-analytics'
+    | '/assessments-scholarships'
+    | '/course-planner'
     | '/dashboard'
     | '/district-analytics'
+    | '/leadership'
     | '/learning-programs'
     | '/reports'
   id:
@@ -114,9 +161,13 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/achievements-leadership'
     | '/_authenticated/assessment-analytics'
+    | '/_authenticated/assessments-scholarships'
+    | '/_authenticated/course-planner'
     | '/_authenticated/dashboard'
     | '/_authenticated/district-analytics'
+    | '/_authenticated/leadership'
     | '/_authenticated/learning-programs'
     | '/_authenticated/reports'
   fileRoutesById: FileRoutesById
@@ -150,11 +201,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/achievements-leadership': {
+      id: '/_authenticated/achievements-leadership'
+      path: '/achievements-leadership'
+      fullPath: '/achievements-leadership'
+      preLoaderRoute: typeof AuthenticatedAchievementsLeadershipRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/assessment-analytics': {
       id: '/_authenticated/assessment-analytics'
       path: '/assessment-analytics'
       fullPath: '/assessment-analytics'
       preLoaderRoute: typeof AuthenticatedAssessmentAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/assessments-scholarships': {
+      id: '/_authenticated/assessments-scholarships'
+      path: '/assessments-scholarships'
+      fullPath: '/assessments-scholarships'
+      preLoaderRoute: typeof AuthenticatedAssessmentsScholarshipsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/course-planner': {
+      id: '/_authenticated/course-planner'
+      path: '/course-planner'
+      fullPath: '/course-planner'
+      preLoaderRoute: typeof AuthenticatedCoursePlannerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -169,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/district-analytics'
       fullPath: '/district-analytics'
       preLoaderRoute: typeof AuthenticatedDistrictAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/leadership': {
+      id: '/_authenticated/leadership'
+      path: '/leadership'
+      fullPath: '/leadership'
+      preLoaderRoute: typeof AuthenticatedLeadershipRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/learning-programs': {
@@ -189,17 +268,27 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAchievementsLeadershipRoute: typeof AuthenticatedAchievementsLeadershipRoute
   AuthenticatedAssessmentAnalyticsRoute: typeof AuthenticatedAssessmentAnalyticsRoute
+  AuthenticatedAssessmentsScholarshipsRoute: typeof AuthenticatedAssessmentsScholarshipsRoute
+  AuthenticatedCoursePlannerRoute: typeof AuthenticatedCoursePlannerRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDistrictAnalyticsRoute: typeof AuthenticatedDistrictAnalyticsRoute
+  AuthenticatedLeadershipRoute: typeof AuthenticatedLeadershipRoute
   AuthenticatedLearningProgramsRoute: typeof AuthenticatedLearningProgramsRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAchievementsLeadershipRoute:
+    AuthenticatedAchievementsLeadershipRoute,
   AuthenticatedAssessmentAnalyticsRoute: AuthenticatedAssessmentAnalyticsRoute,
+  AuthenticatedAssessmentsScholarshipsRoute:
+    AuthenticatedAssessmentsScholarshipsRoute,
+  AuthenticatedCoursePlannerRoute: AuthenticatedCoursePlannerRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDistrictAnalyticsRoute: AuthenticatedDistrictAnalyticsRoute,
+  AuthenticatedLeadershipRoute: AuthenticatedLeadershipRoute,
   AuthenticatedLearningProgramsRoute: AuthenticatedLearningProgramsRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
 }
