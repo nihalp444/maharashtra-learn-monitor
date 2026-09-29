@@ -12,6 +12,10 @@ const en = {
 
   /* ─── Welcome Header Banner ─── */
   welcome: "Welcome,",
+  view: "View",
+  course: "Course",
+  studentId: "Student ID",
+  student: "Student",
   personalizedWorkspace: "Your personalized digital learning workspace",
   studentIdLabel: "Student ID:",
   dayStreak: "Day Streak",

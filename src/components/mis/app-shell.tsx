@@ -205,8 +205,9 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
           setStudentPreferences(preferences);
         }
       });
-      return unsubscribe; } else { return undefined;
+      return unsubscribe;
     }
+    return undefined;
   }, [userInfo.username]);
 
   useEffect(() => {
@@ -619,19 +620,21 @@ export function AppShell({ children }: { children: ReactNode }) {
     // 1. Check local demo auth first
     if (typeof window !== "undefined") {
       const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth && isStudentUsername(storedAuth)) {
         const student = STUDENT_ACCOUNTS[storedAuth];
-        setUserInfo({
-          name: student.displayName,
-          email: `${student.username}@user.mbocwwb.gov.in`,
-          role: "Student",
-          isStudent: true,
-          username: student.username,
-          ageGroup: student.ageGroup,
-          ageGroupLabel: student.ageGroupLabel,
-          studentId: student.studentId,
-          district: student.schoolDistrict,
-        });
+        if (student) {
+          setUserInfo({
+            name: student.displayName,
+            email: `${student.username}@user.mbocwwb.gov.in`,
+            role: "Student",
+            isStudent: true,
+            username: student.username,
+            ageGroup: student.ageGroup,
+            ageGroupLabel: student.ageGroupLabel,
+            studentId: student.studentId,
+            district: student.schoolDistrict,
+          });
+        }
+        return;
         return;
       } else if (storedAuth === "admin") {
         setUserInfo({
@@ -647,29 +650,29 @@ export function AppShell({ children }: { children: ReactNode }) {
     // 2. Check Supabase session
     supabase.auth.getUser().then(({ data }) => {
       if (data.user) {
-        const role = (data.user.user_metadata?.role as string) || "admin";
+        const role = (data.user.user_metadata["role"] as string) || "admin";
         const isStudent = role === "student";
         const username =
-          (data.user.user_metadata?.display_name as string) ||
-          (data.user.user_metadata?.username as string) ||
+          (data.user.user_metadata["display_name"] as string) ||
+          (data.user.user_metadata["username"] as string) ||
           (isStudent ? "Aarav" : "Administrator");
 
-        const ageGroup = (data.user.user_metadata?.age_group as string) || "11-14";
+        const ageGroup = (data.user.user_metadata["age_group"] as string) || "11-14";
         const ageGroupLabel =
-          (data.user.user_metadata?.age_group_label as string) ||
+          (data.user.user_metadata["age_group"]_label as string) ||
           `Age Group: ${ageGroup}`;
-        const studentId = (data.user.user_metadata?.student_id as string) || "MH-STU-001";
+        const studentId = (data.user.user_metadata["student_id"] as string) || "MH-STU-001";
 
         setUserInfo({
           name: username,
           email: data.user.email || (isStudent ? "aarav@user.mbocwwb.gov.in" : "admin@mbocwwb.gov.in"),
           role: isStudent ? "Student" : "State Directorate",
           isStudent,
-          username: (data.user.user_metadata?.username as string) || (isStudent ? "aarav11" : "admin"),
+          username: (data.user.user_metadata["username"] as string) || (isStudent ? "aarav11" : "admin"),
           ageGroup,
           ageGroupLabel,
           studentId,
-          district: (data.user.user_metadata?.district as string) || "Maharashtra",
+          district: (data.user.user_metadata["district"] as string) || "Maharashtra",
         });
       }
     });

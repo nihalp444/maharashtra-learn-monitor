@@ -9,7 +9,7 @@ export const studentService = {
   getStudentByUsername(username: string): StudentProfile | null {
     const normalized = username.trim().toLowerCase();
     if (isStudentUsername(normalized)) {
-      return STUDENT_ACCOUNTS[normalized];
+      return STUDENT_ACCOUNTS[normalized] ?? null;
     }
     return null;
   },
@@ -28,7 +28,7 @@ export const studentService = {
     if (typeof window === "undefined") return null;
     const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
     if (storedAuth && isStudentUsername(storedAuth)) {
-      return STUDENT_ACCOUNTS[storedAuth];
+      return STUDENT_ACCOUNTS[storedAuth] ?? null;
     }
     return null;
   },

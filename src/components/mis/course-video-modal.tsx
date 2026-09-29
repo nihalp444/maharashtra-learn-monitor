@@ -22,6 +22,7 @@ import {
   getGoogleDriveEmbedUrl,
   ROOT_DRIVE_FOLDER,
 } from "@/config/course-videos";
+import { type LearningProgram } from "@/features/mis/models";
 export interface ProgramVideoTarget {
   id: string;
   name: string;
@@ -65,7 +66,7 @@ export function CourseVideoModal({
   }, [curriculum, selectedLanguage]);
 
   // Active playing video state
-  const [activeVideo, setActiveVideo] = useState<CourseVideo>(() => {
+  const [activeVideo, setActiveVideo] = useState<CourseVideo | undefined>(() => {
     return languageVideos[0] || curriculum.videos[0];
   });
 

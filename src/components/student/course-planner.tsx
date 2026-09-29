@@ -159,11 +159,13 @@ export function CoursePlanner({
       if (t.id === taskId) {
         const nextStatus: PlannerTaskStatus =
           t.status === "Completed" ? "Not Started" : "Completed";
-        return {
+        const updatedTask: PlannerTask = {
           ...t,
           status: nextStatus,
-          completedAt: nextStatus === "Completed" ? new Date().toISOString() : undefined,
         };
+        if (nextStatus === "Completed") updatedTask.completedAt = new Date().toISOString();
+        else delete updatedTask.completedAt;
+        return updatedTask;
       }
       return t;
     });
@@ -299,9 +301,9 @@ export function CoursePlanner({
             </p>
 
             <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-slate-500 font-medium">
-              <span>{t("student")}: <strong className="text-slate-800">{student.displayName}</strong></span>
+              <span>Student: <strong className="text-slate-800">{student.displayName}</strong></span>
               <span>·</span>
-              <span>{t("studentId")}: <strong className="text-slate-800 font-mono">{student.studentId}</strong></span>
+              <span>Student ID: <strong className="text-slate-800 font-mono">{student.studentId}</strong></span>
               <span>·</span>
               <span className="text-emerald-700 font-semibold flex items-center gap-1">
                 <CheckCircle2 className="size-3.5 text-emerald-600" />

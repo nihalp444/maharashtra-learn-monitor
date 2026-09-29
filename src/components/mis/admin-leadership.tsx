@@ -577,7 +577,7 @@ export function AdminLeadership() {
             ) : (
               <MaharashtraMap
                 districts={mockDistricts}
-                selectedId={filters.district !== "all" ? filters.district : undefined}
+                selectedId={filters.district !== "all" ? filters.district : ""}
                 onSelect={(id) => setFilters((prev) => ({ ...prev, district: id }))}
               />
             )}
