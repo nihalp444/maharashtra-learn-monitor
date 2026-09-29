@@ -205,7 +205,7 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
           setStudentPreferences(preferences);
         }
       });
-      return unsubscribe;
+      return unsubscribe; } else { return undefined;
     }
   }, [userInfo.username]);
 
