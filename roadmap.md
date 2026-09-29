@@ -9,3 +9,4 @@
 - [x] Add route metadata and verify desktop/mobile views
 - [x] Add the MBOCWWB institutional header and align the MIS theme with the portal reference
 - [ ] Add secure administrator login with username/mobile access and protect every MIS page
+- [ ] Replace Smt. I. A. Kundan's broken published portrait with the supplied image
