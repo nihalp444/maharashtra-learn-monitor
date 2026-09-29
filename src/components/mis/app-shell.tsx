@@ -208,6 +208,7 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
       return unsubscribe;
     }
     return undefined;
+    return;
   }, [userInfo.username]);
 
   useEffect(() => {
@@ -620,6 +621,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     // 1. Check local demo auth first
     if (typeof window !== "undefined") {
       const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
+        if (!storedAuth) return;
         const student = STUDENT_ACCOUNTS[storedAuth];
         if (student) {
           setUserInfo({
@@ -659,7 +661,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         const ageGroup = (data.user.user_metadata["age_group"] as string) || "11-14";
         const ageGroupLabel =
-          (data.user.user_metadata["age_group"]_label as string) ||
+          (data.user.user_metadata["age_group_label"] as string) ||
           `Age Group: ${ageGroup}`;
         const studentId = (data.user.user_metadata["student_id"] as string) || "MH-STU-001";
 
