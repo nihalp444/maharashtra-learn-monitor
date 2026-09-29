@@ -9,7 +9,7 @@ export function MaharashtraMap({
   onSelect,
 }: {
   districts: District[];
-  selectedId?: string;
+  selectedId?: string | undefined;
   onSelect?: (id: string) => void;
 }) {
   const [zoomLevel, setZoomLevel] = useState<number>(1.25);

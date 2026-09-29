@@ -881,7 +881,8 @@ const DISTRICT_TALUKA_MAP: Record<string, string[]> = {
 export function generateDeterministicLeaderboard(ageGroup: StudentAgeGroup): LeaderboardEntry[] {
   const entries: LeaderboardEntry[] = [];
   const targetStudentKey = ageGroup === "6-10" ? "aarav6" : ageGroup === "11-14" ? "aarav11" : "aarav15";
-  const studentPos = STUDENT_POSITIONS[targetStudentKey];
+  const studentPos = STUDENT_POSITIONS[targetStudentKey] ?? STUDENT_POSITIONS["aarav11"];
+  if (!studentPos) return [];
   const targetDistrict = ageGroup === "6-10" ? "Pune" : ageGroup === "11-14" ? "Nashik" : "Nagpur";
   const targetTaluka = ageGroup === "6-10" ? "Haveli" : ageGroup === "11-14" ? "Dindori" : "Nagpur Rural";
   const targetStudentId = ageGroup === "6-10" ? "MH-PUN-06041" : ageGroup === "11-14" ? "MH-NSK-11082" : "MH-NGP-15093";
@@ -916,7 +917,7 @@ export function generateDeterministicLeaderboard(ageGroup: StudentAgeGroup): Lea
 
     // Pseudo-random deterministic name and district based on seed r
     const distIndex = (r * 7 + 3) % districtNames.length;
-    const distName = districtNames[distIndex];
+    const distName = districtNames[distIndex] ?? "Pune";
     const talukas = DISTRICT_TALUKA_MAP[distName] || ["Main"];
     const talukaName = talukas[(r * 3) % talukas.length];
 
@@ -1002,7 +1003,8 @@ export function generateDistrictLeaderboard(
   district: string
 ): LeaderboardEntry[] {
   const targetStudentKey = ageGroup === "6-10" ? "aarav6" : ageGroup === "11-14" ? "aarav11" : "aarav15";
-  const studentPos = STUDENT_POSITIONS[targetStudentKey];
+  const studentPos = STUDENT_POSITIONS[targetStudentKey] ?? STUDENT_POSITIONS["aarav11"];
+  if (!studentPos) return [];
   const targetTaluka = ageGroup === "6-10" ? "Haveli" : ageGroup === "11-14" ? "Dindori" : "Nagpur Rural";
   const targetStudentId = ageGroup === "6-10" ? "MH-PUN-06041" : ageGroup === "11-14" ? "MH-NSK-11082" : "MH-NGP-15093";
 
@@ -1035,7 +1037,7 @@ export function generateDistrictLeaderboard(
       continue;
     }
 
-    const tName = talukas[(r * 2) % talukas.length];
+    const tName = talukas[(r * 2) % talukas.length] ?? "Central Taluka";
     const firstName = SAMPLE_FIRST_NAMES[(r * 7) % SAMPLE_FIRST_NAMES.length];
     const lastInit = SAMPLE_LAST_INITIALS[(r * 5) % SAMPLE_LAST_INITIALS.length];
     const masked = `${firstName} ${lastInit}***`;
@@ -1076,7 +1078,8 @@ export function generateTalukaLeaderboard(
   taluka: string
 ): LeaderboardEntry[] {
   const targetStudentKey = ageGroup === "6-10" ? "aarav6" : ageGroup === "11-14" ? "aarav11" : "aarav15";
-  const studentPos = STUDENT_POSITIONS[targetStudentKey];
+  const studentPos = STUDENT_POSITIONS[targetStudentKey] ?? STUDENT_POSITIONS["aarav11"];
+  if (!studentPos) return [];
   const targetStudentId = ageGroup === "6-10" ? "MH-PUN-06041" : ageGroup === "11-14" ? "MH-NSK-11082" : "MH-NGP-15093";
 
   const entries: LeaderboardEntry[] = [];

@@ -131,6 +131,10 @@ const mr: Translations = {
 
   /* ─── Modal Dialog ─── */
   launchAssessment: "मूल्यमापन सुरू करा",
+  view: "पहा",
+  course: "कोर्स",
+  studentId: "विद्यार्थी आयडी",
+  student: "विद्यार्थी",
   resumeLearning: "शिकणे पुन्हा सुरू करा",
   testEvaluatesDescription:
     "ही चाचणी तुमच्या नोंदणी केलेल्या अभ्यासक्रमातील संकल्पनांवर आधारित आहे. तुमचे इंटरनेट कनेक्शन स्थिर असल्याची खात्री करा.",
@@ -298,6 +302,10 @@ const mr: Translations = {
   proposedDemoDisclaimerTitle: "प्रस्तावित डेमो योजनेची सूचना:",
   proposedDemoDisclaimerText: '"महाराष्ट्र डिजिटल लर्निंग एक्सलन्स अवॉर्ड्स" आणि वर दाखवलेले प्रोत्साहन कार्यक्रम ही फक्त नमुना (डेमो) संकल्पना असून त्यांचा विचार सुरू आहे. अंतिम निकष, कोटा वाटप आणि रक्कम देण्याचे नियम मंडळाकडून अधिकृतपणे जाहीर केले जातील.',
   launchAssessment: "मूल्यमापन सुरू करा",
+  view: "पहा",
+  course: "कोर्स",
+  studentId: "विद्यार्थी आयडी",
+  student: "विद्यार्थी",
   totalQuestions: "एकूण प्रश्न",
   multipleChoiceUnit: "{count} बहुपर्यायी प्रश्न",
   assessmentGuidelines: "मूल्यमापनाच्या सूचना:",

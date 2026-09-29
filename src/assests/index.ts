@@ -7,7 +7,7 @@ import sunetraPawarUrl from "./Sunetra pawar.png";
 import aakashFundkarUrl from "./Adv. Aakash Fundkar.jpeg";
 import ashishJaiswalUrl from "./Adv. Ashish Jaiswal.png";
 import rajeshAggarwalUrl from "./Shri. Rajesh Aggarwal.jpg";
-import iaKundanUrl from "./Smt. I. A. Kundan (IAS).jpeg";
+import iaKundanAsset from "./smt-i-a-kundan-ias.jpeg.asset.json";
 import vivekKumbharUrl from "./Shri. Vivek Shankar Kumbhar.png";
 
 export const MAHABOCW_LOGO_SRC = mahabocwLogoUrl;
@@ -55,8 +55,8 @@ export const ASSET_METADATA = {
     {
       name: "Smt. I. A. Kundan (IAS)",
       title: "Hon. Principal Secretary (Labour)",
-      src: iaKundanUrl,
-      fallback: "/Smt. I. A. Kundan (IAS).jpeg",
+      src: iaKundanAsset.url,
+      fallback: iaKundanAsset.url,
       alt: "Smt. I. A. Kundan (IAS) - Hon. Principal Secretary (Labour)",
     },
     {

@@ -86,11 +86,11 @@ class LeadershipService {
   }
 
   getStudentBadges(username: string): StudentBadge[] {
-    return STUDENT_BADGES[username] ?? STUDENT_BADGES["aarav11"];
+    return STUDENT_BADGES[username] ?? STUDENT_BADGES["aarav11"] ?? [];
   }
 
   getStudentResults(username: string): CompletedAssessmentResult[] {
-    return STUDENT_RESULTS[username] ?? STUDENT_RESULTS["aarav11"];
+    return STUDENT_RESULTS[username] ?? STUDENT_RESULTS["aarav11"] ?? [];
   }
 
   getUpcomingAssessments(ageGroup: StudentAgeGroup): AvailableAssessment[] {

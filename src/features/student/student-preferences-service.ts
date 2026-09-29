@@ -140,7 +140,6 @@ class StudentPreferencesService {
       completed: false,
       favouriteSubjects: [],
       preferredLanguage: "",
-      updatedAt: undefined,
     };
 
     const key = this.getStorageKey(username);

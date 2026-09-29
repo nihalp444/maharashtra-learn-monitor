@@ -370,7 +370,7 @@ export function AssessmentsScholarshipsPage({ student }: AssessmentsScholarships
                       onClick={() => setSelectedResult(res)}
                       className="text-xs font-bold text-primary hover:bg-primary/10 h-8"
                     >
-                      {t("view")}
+                      View
                     </Button>
                   </td>
                 </tr>
@@ -523,7 +523,7 @@ export function AssessmentsScholarshipsPage({ student }: AssessmentsScholarships
           <div className="space-y-3 text-xs">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 space-y-2">
               <div className="flex justify-between">
-                <span className="text-slate-500 font-medium">{t("course")}:</span>
+                <span className="text-slate-500 font-medium">Course:</span>
                 <span className="font-bold text-slate-800">{selectedUpcoming?.courseName}</span>
               </div>
               <div className="flex justify-between">
@@ -731,7 +731,7 @@ export function AssessmentsScholarshipsPage({ student }: AssessmentsScholarships
                     <span className="font-bold text-slate-800">{student.displayName}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block text-[10px]">{t("studentId")}:</span>
+                    <span className="text-slate-400 block text-[10px]">Student ID:</span>
                     <span className="font-mono font-bold text-slate-800">{student.studentId}</span>
                   </div>
                   <div>

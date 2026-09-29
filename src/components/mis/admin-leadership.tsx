@@ -307,8 +307,8 @@ export function AdminLeadership() {
       {/* 1. Page Header */}
       <PageHeader
         title="Maharashtra Leadership &amp; Student Rankings Monitoring"
-        description="Statewide government monitoring of student academic standings, district-level performance matrix, Top 50 merit qualifiers, and scholarship incentive programs."
-        badge={
+        subtitle="Statewide government monitoring of student academic standings, district-level performance matrix, Top 50 merit qualifiers, and scholarship incentive programs."
+        actions={
           <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900 border border-amber-300 shadow-xs">
             <Trophy className="size-3.5 text-amber-700" />
             <span>Statewide MIS Leadership View</span>
@@ -577,7 +577,7 @@ export function AdminLeadership() {
             ) : (
               <MaharashtraMap
                 districts={mockDistricts}
-                selectedId={filters.district !== "all" ? filters.district : undefined}
+                selectedId={filters.district !== "all" ? filters.district : ""}
                 onSelect={(id) => setFilters((prev) => ({ ...prev, district: id }))}
               />
             )}
