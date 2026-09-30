@@ -621,7 +621,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     // 1. Check local demo auth first
     if (typeof window !== "undefined") {
       const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-        if (!storedAuth) return;
+      if (storedAuth) {
         const student = STUDENT_ACCOUNTS[storedAuth];
         if (student) {
           setUserInfo({
@@ -635,17 +635,16 @@ export function AppShell({ children }: { children: ReactNode }) {
             studentId: student.studentId,
             district: student.schoolDistrict,
           });
+          return;
+        } else if (storedAuth === "admin") {
+          setUserInfo({
+            name: "State Directorate Administrator",
+            email: "admin@mbocwwb.gov.in",
+            role: "State Directorate",
+            isStudent: false,
+          });
+          return;
         }
-        return;
-        return;
-      } else if (storedAuth === "admin") {
-        setUserInfo({
-          name: "State Directorate Administrator",
-          email: "admin@mbocwwb.gov.in",
-          role: "State Directorate",
-          isStudent: false,
-        });
-        return;
       }
     }
 
