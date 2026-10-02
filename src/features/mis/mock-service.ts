@@ -166,7 +166,12 @@ export const misService = {
         if (score < 55 || pass < 55) benchmarkStatus = "Critical";
         else if (score < 70 || pass < 70) benchmarkStatus = "Needs Attention";
 
-        const ageLabel = p.ageGroup === "6-10" ? "Age 6–10" : p.ageGroup === "11-14" ? "Age 11–14" : "Age 15–18";
+        const ageLabel =
+          p.ageGroup === "6-10"
+            ? "Foundation Class 1st to 5th"
+            : p.ageGroup === "11-14"
+              ? "Class 6th to 9th"
+              : "Class 10th to 12th";
 
         return {
           ageGroup: p.ageGroup,
@@ -215,7 +220,12 @@ export const misService = {
 
   getAreasOfConcern: (ageGroup?: AgeGroupId | "all"): AreaOfConcern[] => {
     if (!ageGroup || ageGroup === "all") return areasOfConcern;
-    const tag = ageGroup === "6-10" ? "Age 6–10" : ageGroup === "11-14" ? "Age 11–14" : "Age 15–18";
+    const tag =
+      ageGroup === "6-10"
+        ? "Foundation Class 1st to 5th"
+        : ageGroup === "11-14"
+          ? "Class 6th to 9th"
+          : "Class 10th to 12th";
     return areasOfConcern.filter((a) => a.ageGroup === tag);
   },
 };

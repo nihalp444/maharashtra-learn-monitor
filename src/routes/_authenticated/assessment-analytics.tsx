@@ -48,7 +48,7 @@ export const Route = createFileRoute("/_authenticated/assessment-analytics")({
       {
         name: "description",
         content:
-          "Comprehensive assessment and academic outcome analytics across Age Groups, Districts, and Learning Programs for Maharashtra.",
+          "Comprehensive assessment and academic outcome analytics across Classes, Districts, and Learning Programs for Maharashtra.",
       },
       {
         property: "og:title",
@@ -193,14 +193,14 @@ function AssessmentAnalyticsPage() {
           </div>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-            {/* Age Group Filter */}
+            {/* Class Filter */}
             <div>
               <label className="text-[11px] font-semibold text-muted-foreground">
-                Age Group
+                Class / Grade
               </label>
               <Select value={filters.ageGroup} onValueChange={handleAgeChange}>
                 <SelectTrigger className="mt-1 h-9 w-full rounded-lg bg-background text-xs font-medium">
-                  <SelectValue placeholder="Age Group" />
+                  <SelectValue placeholder="Class / Grade" />
                 </SelectTrigger>
                 <SelectContent>
                   {ageGroupOptions.map((opt) => (
@@ -383,7 +383,7 @@ function AssessmentAnalyticsPage() {
             <table className="w-full text-left text-xs">
               <thead className="border-b border-border bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-600">
                 <tr>
-                  <th className="px-4 py-3.5">Age Group</th>
+                  <th className="px-4 py-3.5">Class</th>
                   <th className="px-4 py-3.5">Learning Program</th>
                   <th
                     className="cursor-pointer px-4 py-3.5 hover:text-slate-950"
@@ -560,10 +560,10 @@ function AssessmentAnalyticsPage() {
           </div>
         </SectionCard>
 
-        {/* District × Age Group Performance Matrix */}
+        {/* District × Class Performance Matrix */}
         <SectionCard
-          title="District × Age Group Performance Matrix"
-          subtitle="Comparative analysis across Age 6–10, Age 11–14, and Age 15–18 cohorts in 36 districts"
+          title="District × Class Performance Matrix"
+          subtitle="Comparative analysis across Foundation Class 1st to 5th, Class 6th to 9th, and Class 10th to 12th cohorts in 36 districts"
           action={
             <div className="relative w-64 sm:w-72">
               <Search className="absolute left-3 top-2.5 size-4 text-slate-400" />
@@ -582,13 +582,13 @@ function AssessmentAnalyticsPage() {
                 <tr>
                   <th className="px-4 py-3.5">District</th>
                   <th className="px-4 py-3.5 text-center bg-blue-50/40">
-                    Age 6–10 (Score / Pass)
+                    Foundation Class 1–5 (Score / Pass)
                   </th>
                   <th className="px-4 py-3.5 text-center bg-emerald-50/40">
-                    Age 11–14 (Score / Pass)
+                    Class 6–9 (Score / Pass)
                   </th>
                   <th className="px-4 py-3.5 text-center bg-amber-50/40">
-                    Age 15–18 (Score / Pass)
+                    Class 10–12 (Score / Pass)
                   </th>
                   <th className="px-4 py-3.5 text-right">Overall Score</th>
                   <th className="px-4 py-3.5 text-right">Pass Rate</th>

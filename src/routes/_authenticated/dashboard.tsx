@@ -211,7 +211,7 @@ function DashboardPage() {
         {/* Learning Programs with Age-Group Selector */}
         <SectionCard
           title="Flagship Learning Programs"
-          subtitle="Direct student learning enablement through the OTT platform - Klassroom."
+          subtitle="Real-time curriculum coverage, student enrollment, and stream performance."
           action={
             <div className="inline-flex items-center gap-1 rounded-xl bg-slate-100/90 p-1 border border-slate-200/60 shadow-2xs">
               {ageGroups.map((ag) => {

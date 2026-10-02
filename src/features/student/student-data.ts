@@ -76,7 +76,7 @@ export const STUDENT_ACCOUNTS: Record<string, StudentProfile> = {
     username: "aarav6",
     displayName: "Aarav",
     ageGroup: "6-10",
-    ageGroupLabel: "Age Group: 6–10",
+    ageGroupLabel: "Foundation Class 1st to 5th",
     schoolDistrict: "Pune District",
     studentId: "MH-PUN-06041",
     kpis: {
@@ -175,7 +175,7 @@ export const STUDENT_ACCOUNTS: Record<string, StudentProfile> = {
     username: "aarav11",
     displayName: "Aarav",
     ageGroup: "11-14",
-    ageGroupLabel: "Age Group: 11–14",
+    ageGroupLabel: "Class 6th to 9th",
     schoolDistrict: "Nashik District",
     studentId: "MH-NSK-11082",
     kpis: {
@@ -262,7 +262,7 @@ export const STUDENT_ACCOUNTS: Record<string, StudentProfile> = {
     username: "aarav15",
     displayName: "Aarav",
     ageGroup: "15-18",
-    ageGroupLabel: "Age Group: 15–18",
+    ageGroupLabel: "Class 10th to 12th",
     schoolDistrict: "Nagpur District",
     studentId: "MH-NGP-15093",
     kpis: {

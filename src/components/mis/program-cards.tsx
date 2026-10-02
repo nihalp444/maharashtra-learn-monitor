@@ -1,24 +1,17 @@
 import {
-  ArrowUpRight,
   BookOpen,
   Bot,
   BrainCircuit,
   Calculator,
   Compass,
   Cpu,
-  ExternalLink,
   HeartHandshake,
   Microscope,
-  PlayCircle,
   Puzzle,
   Sigma,
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { CourseVideoModal } from "@/components/mis/course-video-modal";
-import { KLASSROOM_LINKS } from "@/config/program-links";
 import { formatNumber, type LearningProgram } from "@/features/mis/mock-service";
 
 const icons: Record<string, LucideIcon> = {
@@ -47,8 +40,6 @@ interface ColorTheme {
   badgeText: string;
   badgeBorder: string;
   accentBar: string;
-  buttonBg: string;
-  buttonHover: string;
 }
 
 const colorThemes: Record<string, ColorTheme> = {
@@ -58,29 +49,25 @@ const colorThemes: Record<string, ColorTheme> = {
     cardHoverShadow: "hover:shadow-blue-500/10",
     headerBg: "bg-gradient-to-r from-blue-50/80 via-indigo-50/30 to-white",
     headerBorder: "border-blue-100",
-    iconBg: "bg-blue-600 text-white shadow-blue-500/20",
-    iconColor: "text-white",
+    iconBg: "bg-blue-600 text-white",
+    iconColor: "text-blue-600",
     badgeBg: "bg-blue-50 text-blue-700",
-    badgeText: "text-blue-700 font-bold",
-    badgeBorder: "border-blue-200",
+    badgeText: "text-blue-700",
+    badgeBorder: "border-blue-200/70",
     accentBar: "bg-blue-600",
-    buttonBg: "border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 text-blue-800",
-    buttonHover: "group-hover:border-blue-300",
   },
-  "program-green": {
+  "program-emerald": {
     cardBorder: "border-emerald-200/70",
     cardHoverBorder: "hover:border-emerald-400",
     cardHoverShadow: "hover:shadow-emerald-500/10",
     headerBg: "bg-gradient-to-r from-emerald-50/80 via-teal-50/30 to-white",
     headerBorder: "border-emerald-100",
-    iconBg: "bg-emerald-600 text-white shadow-emerald-500/20",
-    iconColor: "text-white",
+    iconBg: "bg-emerald-600 text-white",
+    iconColor: "text-emerald-600",
     badgeBg: "bg-emerald-50 text-emerald-700",
-    badgeText: "text-emerald-700 font-bold",
-    badgeBorder: "border-emerald-200",
+    badgeText: "text-emerald-700",
+    badgeBorder: "border-emerald-200/70",
     accentBar: "bg-emerald-600",
-    buttonBg: "border-emerald-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 text-emerald-800",
-    buttonHover: "group-hover:border-emerald-300",
   },
   "program-amber": {
     cardBorder: "border-amber-200/70",
@@ -88,14 +75,12 @@ const colorThemes: Record<string, ColorTheme> = {
     cardHoverShadow: "hover:shadow-amber-500/10",
     headerBg: "bg-gradient-to-r from-amber-50/80 via-orange-50/30 to-white",
     headerBorder: "border-amber-100",
-    iconBg: "bg-amber-600 text-white shadow-amber-500/20",
-    iconColor: "text-white",
-    badgeBg: "bg-amber-50 text-amber-700",
-    badgeText: "text-amber-700 font-bold",
-    badgeBorder: "border-amber-200",
-    accentBar: "bg-amber-600",
-    buttonBg: "border-amber-200 hover:bg-amber-600 hover:text-white hover:border-amber-600 text-amber-800",
-    buttonHover: "group-hover:border-amber-300",
+    iconBg: "bg-amber-600 text-white",
+    iconColor: "text-amber-600",
+    badgeBg: "bg-amber-50 text-amber-800",
+    badgeText: "text-amber-800",
+    badgeBorder: "border-amber-200/70",
+    accentBar: "bg-amber-500",
   },
   "program-purple": {
     cardBorder: "border-purple-200/70",
@@ -103,14 +88,51 @@ const colorThemes: Record<string, ColorTheme> = {
     cardHoverShadow: "hover:shadow-purple-500/10",
     headerBg: "bg-gradient-to-r from-purple-50/80 via-pink-50/30 to-white",
     headerBorder: "border-purple-100",
-    iconBg: "bg-purple-600 text-white shadow-purple-500/20",
-    iconColor: "text-white",
+    iconBg: "bg-purple-600 text-white",
+    iconColor: "text-purple-600",
     badgeBg: "bg-purple-50 text-purple-700",
-    badgeText: "text-purple-700 font-bold",
-    badgeBorder: "border-purple-200",
+    badgeText: "text-purple-700",
+    badgeBorder: "border-purple-200/70",
     accentBar: "bg-purple-600",
-    buttonBg: "border-purple-200 hover:bg-purple-600 hover:text-white hover:border-purple-600 text-purple-800",
-    buttonHover: "group-hover:border-purple-300",
+  },
+  "program-green": {
+    cardBorder: "border-emerald-200/70",
+    cardHoverBorder: "hover:border-emerald-400",
+    cardHoverShadow: "hover:shadow-emerald-500/10",
+    headerBg: "bg-gradient-to-r from-emerald-50/80 via-teal-50/30 to-white",
+    headerBorder: "border-emerald-100",
+    iconBg: "bg-emerald-600 text-white",
+    iconColor: "text-emerald-600",
+    badgeBg: "bg-emerald-50 text-emerald-700",
+    badgeText: "text-emerald-700",
+    badgeBorder: "border-emerald-200/70",
+    accentBar: "bg-emerald-600",
+  },
+  "program-maroon": {
+    cardBorder: "border-rose-200/70",
+    cardHoverBorder: "hover:border-rose-400",
+    cardHoverShadow: "hover:shadow-rose-500/10",
+    headerBg: "bg-gradient-to-r from-rose-50/80 via-pink-50/30 to-white",
+    headerBorder: "border-rose-100",
+    iconBg: "bg-rose-700 text-white",
+    iconColor: "text-rose-700",
+    badgeBg: "bg-rose-50 text-rose-700",
+    badgeText: "text-rose-700",
+    badgeBorder: "border-rose-200/70",
+    accentBar: "bg-rose-700",
+  },
+  "program-teal": {
+    cardBorder: "border-teal-200/70",
+    cardHoverBorder: "hover:border-teal-400",
+    cardHoverShadow: "hover:shadow-teal-500/10",
+    headerBg: "bg-gradient-to-r from-teal-50/80 via-cyan-50/30 to-white",
+    headerBorder: "border-teal-100",
+    iconBg: "bg-teal-600 text-white",
+    iconColor: "text-teal-600",
+    badgeBg: "bg-teal-50 text-teal-700",
+    badgeText: "text-teal-700",
+    badgeBorder: "border-teal-200/70",
+    accentBar: "bg-teal-600",
   },
 };
 
@@ -123,32 +145,26 @@ export function ProgramCards({
   programs: LearningProgram[];
   detailed?: boolean;
 }) {
-  const [selectedProgramForVideo, setSelectedProgramForVideo] =
-    useState<LearningProgram | null>(null);
-
   return (
-    <>
-      <div
-        className={`grid gap-4 sm:gap-5 ${
-          programs.length === 4
-            ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
-            : detailed
-              ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
-              : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-        }`}
-      >
-        {programs.map((program) => {
-          const Icon = icons[program.id] ?? BrainCircuit;
-          const theme = colorThemes[program.color] ?? defaultTheme;
-          if (!theme) return null;
-          const targetUrl = KLASSROOM_LINKS[program.linkKey] ?? "https://www.klassroom.in/klassroom-ott/";
+    <div
+      className={`grid gap-4 sm:gap-5 ${
+        programs.length === 4
+          ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+          : detailed
+            ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+            : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+      }`}
+    >
+      {programs.map((program) => {
+        const Icon = icons[program.id] ?? BrainCircuit;
+        const theme = colorThemes[program.color] ?? defaultTheme;
+        if (!theme) return null;
 
-          return (
-            <article
-              key={program.id}
-              onClick={() => setSelectedProgramForVideo(program)}
-              className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer ${theme.cardBorder} ${theme.cardHoverBorder} ${theme.cardHoverShadow}`}
-            >
+        return (
+          <article
+            key={program.id}
+            className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${theme.cardBorder} ${theme.cardHoverBorder} ${theme.cardHoverShadow}`}
+          >
             {/* Top Accent Stripe */}
             <div className={`h-1 w-full ${theme.accentBar}`} />
 
@@ -174,7 +190,7 @@ export function ProgramCards({
                 </div>
               </div>
 
-              {/* Title & Subtitle Row with full width */}
+              {/* Title & Subtitle Row */}
               <div className="mt-2">
                 <h3
                   className="font-extrabold text-slate-900 text-sm sm:text-[15px] leading-tight tracking-tight"
@@ -242,52 +258,9 @@ export function ProgramCards({
                 </div>
               </div>
             </div>
-
-            {/* Action Footer */}
-            <div className="border-t border-slate-100 bg-slate-50/50 px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2">
-              <Button
-                type="button"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedProgramForVideo(program);
-                }}
-                className="h-8.5 flex-1 justify-center gap-1.5 rounded-lg bg-primary hover:bg-primary/95 text-white font-bold text-xs transition-all shadow-xs"
-              >
-                <PlayCircle className="size-3.5" />
-                <span>Watch Lectures</span>
-              </Button>
-
-              <Button
-                size="sm"
-                variant="outline"
-                asChild
-                onClick={(e) => e.stopPropagation()}
-                className={`h-8.5 px-3 justify-center gap-1 rounded-lg bg-white font-semibold text-xs transition-all shadow-2xs ${theme.buttonBg}`}
-                title="Explore curriculum on Klassroom OTT"
-              >
-                <a
-                  href={targetUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center gap-1"
-                >
-                  <span className="hidden sm:inline">Klassroom</span>
-                  <ExternalLink className="size-3 shrink-0 opacity-70" />
-                </a>
-              </Button>
-            </div>
           </article>
         );
       })}
     </div>
-
-    {/* Video Player & Curriculum Modal */}
-    <CourseVideoModal
-      isOpen={selectedProgramForVideo !== null}
-      onClose={() => setSelectedProgramForVideo(null)}
-      program={selectedProgramForVideo}
-    />
-  </>
   );
 }

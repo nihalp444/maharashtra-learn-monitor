@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/learning-programs")({
       {
         name: "description",
         content:
-          "Monitor Foundational (6-10), Middle School (11-14), and Career Prep (15-18) digital learning programs delivered through Klassroom.",
+          "Monitor Foundation Class 1st to 5th, Class 6th to 9th, and Class 10th to 12th digital learning programs delivered through Klassroom.",
       },
       {
         property: "og:title",
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_authenticated/learning-programs")({
       },
       {
         property: "og:description",
-        content: "Performance overview for Maharashtra digital learning programs by age group.",
+        content: "Performance overview for Maharashtra digital learning programs by class stream.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -49,15 +49,15 @@ function ProgramsPage() {
         subtitle="Monitor student enrollment, course progress, and engagement across career readiness streams."
       />
       <div className="space-y-6 p-4 sm:p-6 xl:p-8">
-        {/* Age Group Switcher */}
+        {/* Class Stream Switcher */}
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-3.5 shadow-xs">
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
               <Sparkles className="size-3.5" />
-              Target Cohort:
+              Target Class:
             </span>
             <span className="text-xs text-muted-foreground hidden sm:inline font-medium">
-              Select student age group to view curriculum streams & live metrics
+              Select student class to view curriculum streams & live metrics
             </span>
           </div>
           <div className="flex items-center gap-1.5 rounded-lg bg-slate-100 p-1">
@@ -80,7 +80,7 @@ function ProgramsPage() {
           </div>
         </div>
 
-        {/* Dynamic Age Group KPIs */}
+        {/* Dynamic Class Stream KPIs */}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <KpiCard
             label={`Enrolments (${currentAgeInfo?.label})`}
@@ -115,7 +115,7 @@ function ProgramsPage() {
 
         <SectionCard
           title={`State-Sponsored Learning Programs – ${currentAgeInfo?.label}`}
-          subtitle={`${currentAgeInfo?.grade} · ${currentAgeInfo?.description} · Direct digital curriculum via Klassroom.`}
+          subtitle={`${currentAgeInfo?.grade} · ${currentAgeInfo?.description} · Comprehensive stream curriculum analytics.`}
         >
           <ProgramCards programs={programs} detailed />
         </SectionCard>

@@ -383,10 +383,10 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
                 </div>
                 <div>
                   <span className="text-[11px] font-medium text-muted-foreground block">
-                    {userInfo.isStudent ? "Registered Age Group" : "Role"}
+                    {userInfo.isStudent ? "Registered Class" : "Role"}
                   </span>
                   <span className="font-semibold text-primary">
-                    {userInfo.isStudent ? (userInfo.ageGroupLabel || "Age Group: 11–14") : userInfo.role}
+                    {userInfo.isStudent ? (userInfo.ageGroupLabel || "Class 6th to 9th") : userInfo.role}
                   </span>
                 </div>
                 <div>
@@ -556,7 +556,7 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
           username={userInfo.username || "aarav11"}
           displayName={userInfo.name}
           ageGroup={(userInfo.ageGroup as StudentAgeGroup) || "11-14"}
-          ageGroupLabel={userInfo.ageGroupLabel || "Age Group: 11–14"}
+          ageGroupLabel={userInfo.ageGroupLabel || "Class 6th to 9th"}
           onSaved={(updated) => {
             setStudentPreferences(updated);
           }}
@@ -661,7 +661,11 @@ export function AppShell({ children }: { children: ReactNode }) {
         const ageGroup = (data.user.user_metadata["age_group"] as string) || "11-14";
         const ageGroupLabel =
           (data.user.user_metadata["age_group_label"] as string) ||
-          `Age Group: ${ageGroup}`;
+          (ageGroup === "6-10"
+            ? "Foundation Class 1st to 5th"
+            : ageGroup === "11-14"
+              ? "Class 6th to 9th"
+              : "Class 10th to 12th");
         const studentId = (data.user.user_metadata["student_id"] as string) || "MH-STU-001";
 
         setUserInfo({

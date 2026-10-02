@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { PlayCircle } from "lucide-react";
-import { CourseVideoModal } from "@/components/mis/course-video-modal";
 import { formatNumber, type LearningProgram } from "@/features/mis/mock-service";
 
 interface ProgramColorStyle {
@@ -20,21 +17,17 @@ const programColors: Record<string, ProgramColorStyle> = {
 };
 
 export function CourseEngagement({ programs }: { programs: LearningProgram[] }) {
-  const [selectedProgram, setSelectedProgram] = useState<LearningProgram | null>(null);
-
   return (
-    <>
-      <div className="flex h-full flex-col justify-between gap-3.5">
-        {programs.map((program) => {
-          const colors: ProgramColorStyle =
-            programColors[program.color] ?? defaultProgramColor;
+    <div className="flex h-full flex-col justify-between gap-3.5">
+      {programs.map((program) => {
+        const colors: ProgramColorStyle =
+          programColors[program.color] ?? defaultProgramColor;
 
-          return (
-            <div
-              key={program.id}
-              onClick={() => setSelectedProgram(program)}
-              className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition-all hover:border-slate-200 hover:bg-slate-50 shadow-2xs cursor-pointer group"
-            >
+        return (
+          <div
+            key={program.id}
+            className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition-all hover:border-slate-200 hover:bg-slate-50 shadow-2xs"
+          >
             <div className="mb-2.5 flex items-center justify-between">
               <div>
                 <p className="text-xs font-bold text-slate-900">{program.name}</p>
@@ -62,21 +55,13 @@ export function CourseEngagement({ programs }: { programs: LearningProgram[] }) 
 
             <div className="mt-2 flex items-center justify-between text-[10px] font-semibold text-slate-500">
               <span>Avg. Learning Hours: {formatNumber(program.learningHours)} hrs</span>
-              <span className="text-slate-600 flex items-center gap-1">
-                <span>Completion: {program.completion}%</span>
-                <PlayCircle className="size-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="text-slate-600 font-semibold">
+                Completion: {program.completion}%
               </span>
             </div>
           </div>
         );
       })}
     </div>
-
-    <CourseVideoModal
-      isOpen={selectedProgram !== null}
-      onClose={() => setSelectedProgram(null)}
-      program={selectedProgram}
-    />
-  </>
   );
 }

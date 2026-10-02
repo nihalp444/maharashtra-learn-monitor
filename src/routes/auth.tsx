@@ -351,7 +351,7 @@ function LoginPage() {
             <div className="flex items-center gap-2.5">
               <Shield className="size-4 shrink-0 text-primary" />
               <p className="text-[10.5px] leading-snug text-slate-600 font-medium">
-                Your access is automatically determined based on your registered profile and age group.
+                Your access is automatically determined based on your registered student profile and class.
               </p>
             </div>
           </div>
@@ -382,7 +382,7 @@ function LoginPage() {
                 }}
                 className="flex items-center justify-between rounded-md bg-white/90 border border-amber-200/90 px-2 py-1 text-[10.5px] font-semibold text-amber-950 hover:bg-amber-100 transition-colors shadow-2xs"
               >
-                <span>Aarav (6–10)</span>
+                <span>Aarav (Foundation Class 1–5)</span>
                 <span className="font-mono text-[9.5px] text-amber-800">aarav6</span>
               </button>
 
@@ -394,7 +394,7 @@ function LoginPage() {
                 }}
                 className="flex items-center justify-between rounded-md bg-white/90 border border-amber-200/90 px-2 py-1 text-[10.5px] font-semibold text-amber-950 hover:bg-amber-100 transition-colors shadow-2xs"
               >
-                <span>Aarav (11–14)</span>
+                <span>Aarav (Class 6–9)</span>
                 <span className="font-mono text-[9.5px] text-amber-800">aarav11</span>
               </button>
 
@@ -406,7 +406,7 @@ function LoginPage() {
                 }}
                 className="flex items-center justify-between rounded-md bg-white/90 border border-amber-200/90 px-2 py-1 text-[10.5px] font-semibold text-amber-950 hover:bg-amber-100 transition-colors shadow-2xs"
               >
-                <span>Aarav (15–18)</span>
+                <span>Aarav (Class 10–12)</span>
                 <span className="font-mono text-[9.5px] text-amber-800">aarav15</span>
               </button>
             </div>

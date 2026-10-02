@@ -6,7 +6,7 @@ export const districtOptions = [
 ];
 
 export const ageGroupOptions = [
-  { value: "all", label: "All Age Groups" },
+  { value: "all", label: "All Classes" },
   ...AGE_GROUPS.map((a) => ({ value: a.id, label: a.label })),
 ];
 

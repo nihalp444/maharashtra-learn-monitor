@@ -218,7 +218,7 @@ export function AdminLeadership() {
       "Name",
       "District",
       "Taluka",
-      "Age Group",
+      "Class",
       "Score (%)",
       "Percentile",
       "Scholarship Status",
@@ -229,7 +229,11 @@ export function AdminLeadership() {
       s.displayName,
       s.district,
       s.taluka,
-      s.ageGroup,
+      s.ageGroup === "6-10"
+        ? "Foundation Class 1st to 5th"
+        : s.ageGroup === "11-14"
+          ? "Class 6th to 9th"
+          : "Class 10th to 12th",
       s.score,
       s.percentile,
       s.scholarshipStatus,
@@ -395,21 +399,21 @@ export function AdminLeadership() {
             </Select>
           </div>
 
-          {/* 4. Age Group Filter */}
+          {/* 4. Class Filter */}
           <div className="space-y-1">
-            <Label className="text-[11px] font-bold text-slate-600 uppercase">Age Group</Label>
+            <Label className="text-[11px] font-bold text-slate-600 uppercase">Class / Grade</Label>
             <Select
               value={filters.ageGroup}
               onValueChange={(val) => setFilters((prev) => ({ ...prev, ageGroup: val as any }))}
             >
               <SelectTrigger className="text-xs font-semibold h-9 bg-slate-50 border-slate-200">
-                <SelectValue placeholder="All Age Groups" />
+                <SelectValue placeholder="All Classes" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Age Groups (6–18)</SelectItem>
-                <SelectItem value="6-10">Age Group: 6–10 (Primary)</SelectItem>
-                <SelectItem value="11-14">Age Group: 11–14 (Middle)</SelectItem>
-                <SelectItem value="15-18">Age Group: 15–18 (Secondary)</SelectItem>
+                <SelectItem value="all">All Classes</SelectItem>
+                <SelectItem value="6-10">Foundation Class 1st to 5th</SelectItem>
+                <SelectItem value="11-14">Class 6th to 9th</SelectItem>
+                <SelectItem value="15-18">Class 10th to 12th</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -981,7 +985,7 @@ export function AdminLeadership() {
                 <th scope="col" className="px-4 py-3">Student Identifier</th>
                 <th scope="col" className="px-4 py-3">District</th>
                 <th scope="col" className="px-4 py-3">Taluka</th>
-                <th scope="col" className="px-4 py-3 text-center">Age Group</th>
+                <th scope="col" className="px-4 py-3 text-center">Class</th>
                 <th scope="col" className="px-4 py-3 text-center">Score</th>
                 <th scope="col" className="px-4 py-3 text-center">Percentile</th>
                 <th scope="col" className="px-4 py-3 text-center">Rank Movement</th>
@@ -1007,7 +1011,11 @@ export function AdminLeadership() {
                   <td className="px-4 py-2.5 whitespace-nowrap text-slate-600">{s.taluka}</td>
                   <td className="px-4 py-2.5 whitespace-nowrap text-center">
                     <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-700">
-                      Age {s.ageGroup}
+                      {s.ageGroup === "6-10"
+                        ? "Foundation Class 1–5"
+                        : s.ageGroup === "11-14"
+                          ? "Class 6–9"
+                          : "Class 10–12"}
                     </span>
                   </td>
                   <td className="px-4 py-2.5 whitespace-nowrap text-center font-black text-slate-900">
@@ -1107,7 +1115,7 @@ export function AdminLeadership() {
             <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
               <tr>
                 <th scope="col" className="px-4 py-3">Scheme Name</th>
-                <th scope="col" className="px-4 py-3">Target Age Groups</th>
+                <th scope="col" className="px-4 py-3">Target Classes</th>
                 <th scope="col" className="px-4 py-3">Scope</th>
                 <th scope="col" className="px-4 py-3 text-center">Top Quota</th>
                 <th scope="col" className="px-4 py-3 text-center">Applications</th>
@@ -1125,10 +1133,14 @@ export function AdminLeadership() {
                     <p className="text-[10.5px] text-slate-500">{sch.rewardDetails.amount}</p>
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex gap-1">
+                    <div className="flex flex-wrap gap-1">
                       {sch.eligibleAgeGroups.map((ag) => (
                         <span key={ag} className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-700">
-                          {ag}
+                          {ag === "6-10"
+                            ? "Foundation Class 1–5"
+                            : ag === "11-14"
+                              ? "Class 6–9"
+                              : "Class 10–12"}
                         </span>
                       ))}
                     </div>
@@ -1214,15 +1226,15 @@ export function AdminLeadership() {
               </div>
 
               <div className="space-y-1">
-                <Label className="text-xs font-bold text-slate-700">Eligible Age Group</Label>
+                <Label className="text-xs font-bold text-slate-700">Eligible Class</Label>
                 <Select value={newSchAgeGroup} onValueChange={(val: any) => setNewSchAgeGroup(val)}>
                   <SelectTrigger className="text-xs h-9">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="6-10">Age Group: 6–10 (Primary)</SelectItem>
-                    <SelectItem value="11-14">Age Group: 11–14 (Middle)</SelectItem>
-                    <SelectItem value="15-18">Age Group: 15–18 (Secondary)</SelectItem>
+                    <SelectItem value="6-10">Foundation Class 1st to 5th</SelectItem>
+                    <SelectItem value="11-14">Class 6th to 9th</SelectItem>
+                    <SelectItem value="15-18">Class 10th to 12th</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

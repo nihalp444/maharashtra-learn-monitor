@@ -228,11 +228,11 @@ export const programs: LearningProgram[] = [
   },
 ];
 
-// Age groups metadata
+// Class cohorts metadata
 export const AGE_GROUPS = [
-  { id: "6-10", label: "Age 6–10", grade: "Primary (Std 1–5)", description: "Foundational reading, numeracy & exploratory learning" },
-  { id: "11-14", label: "Age 11–14", grade: "Middle School (Std 6–8)", description: "Applied STEM, digital literacy & analytical problem-solving" },
-  { id: "15-18", label: "Age 15–18", grade: "Secondary & Higher Secondary (Std 9–12)", description: "Competitive entrance (NEET, JEE) & future tech (AI/ML)" },
+  { id: "6-10", label: "Foundation Class 1st to 5th", grade: "Foundation (Std 1–5)", description: "Foundational reading, numeracy & exploratory learning" },
+  { id: "11-14", label: "Class 6th to 9th", grade: "Middle School (Std 6–9)", description: "Applied STEM, digital literacy & analytical problem-solving" },
+  { id: "15-18", label: "Class 10th to 12th", grade: "Secondary & Higher Secondary (Std 10–12)", description: "Competitive entrance (NEET, JEE) & future tech (AI/ML)" },
 ] as const;
 
 // Assessment Items mock
@@ -261,7 +261,7 @@ export const assessmentList: AssessmentItem[] = [
 export const areasOfConcern: AreaOfConcern[] = [
   {
     subject: "JEE Mechanics & Coordinate Geometry",
-    ageGroup: "Age 15–18",
+    ageGroup: "Class 10th to 12th",
     identifiedIssue: "Low conceptual clarity in rotational dynamics and conic sections across rural tribal belt.",
     score: 48.2,
     studentsImpacted: 4820,
@@ -269,8 +269,8 @@ export const areasOfConcern: AreaOfConcern[] = [
     recommendedAction: "Deploy focused video problem-solving clinics on Klassroom with Marathi step-by-step subtitles.",
   },
   {
-    subject: "Grade 6-8 Algebraic Word Problems",
-    ageGroup: "Age 11–14",
+    subject: "Grade 6-9 Algebraic Word Problems",
+    ageGroup: "Class 6th to 9th",
     identifiedIssue: "Transition from arithmetic to variable abstraction causing 28% drop in multi-step problem solving.",
     score: 54.6,
     studentsImpacted: 7150,
@@ -279,7 +279,7 @@ export const areasOfConcern: AreaOfConcern[] = [
   },
   {
     subject: "NEET Organic Chemistry Mechanisms",
-    ageGroup: "Age 15–18",
+    ageGroup: "Class 10th to 12th",
     identifiedIssue: "Electrophilic substitution recall questions exhibiting < 50% retention rates in Vidarbha region.",
     score: 52.8,
     studentsImpacted: 3940,
@@ -287,8 +287,8 @@ export const areasOfConcern: AreaOfConcern[] = [
     recommendedAction: "Conduct bi-weekly live reaction mechanism revision webinars via Klassroom portal.",
   },
   {
-    subject: "Primary Phonics & Reading Comprehension",
-    ageGroup: "Age 6–10",
+    subject: "Foundation Phonics & Reading Comprehension",
+    ageGroup: "Foundation Class 1st to 5th",
     identifiedIssue: "Blend sound recognition lagging in Nandurbar and Gadchiroli vernacular schools.",
     score: 58.4,
     studentsImpacted: 5300,
