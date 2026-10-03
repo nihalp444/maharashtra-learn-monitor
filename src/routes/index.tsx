@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {
@@ -12,11 +13,9 @@ export const Route = createFileRoute("/")({
       if ((e as { to?: string })?.to) throw e;
     }
 
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth) {
-        throw redirect({ to: "/dashboard" });
-      }
+    const storedAuth = getStoredDemoAuth();
+    if (storedAuth) {
+      throw redirect({ to: "/dashboard" });
     }
 
     throw redirect({ to: "/auth" });

@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { STUDENT_ACCOUNTS, isStudentUsername } from "@/features/student/student-data";
+import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -15,10 +16,9 @@ export const Route = createFileRoute("/_authenticated")({
       // ignore network errors
     }
 
-    // 2. Check local demo session (admin or student)
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth === "admin") {
+    // 2. Check demo session (admin or student)
+    const storedAuth = getStoredDemoAuth();
+    if (storedAuth === "admin") {
         return {
           user: {
             id: "demo-admin-id",
@@ -49,7 +49,6 @@ export const Route = createFileRoute("/_authenticated")({
           },
         };
       }
-    }
 
     throw redirect({ to: "/auth" });
   },

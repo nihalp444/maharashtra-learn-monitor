@@ -8,6 +8,7 @@ import {
 } from "@/features/student/student-data";
 import { studentService } from "@/features/student/student-service";
 import { supabase } from "@/integrations/supabase/client";
+import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const Route = createFileRoute("/_authenticated/assessments-scholarships")({
   ssr: false,
@@ -34,18 +35,16 @@ function StudentAssessmentsScholarshipsRoutePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Check local demo session
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth && isStudentUsername(storedAuth)) {
-        setStudent(STUDENT_ACCOUNTS[storedAuth]);
-        setLoading(false);
-        return;
-      } else if (storedAuth === "admin") {
-        // Redirect admin to assessment analytics
-        void navigate({ to: "/assessment-analytics", replace: true });
-        return;
-      }
+    // 1. Check demo session
+    const storedAuth = getStoredDemoAuth();
+    if (storedAuth && isStudentUsername(storedAuth)) {
+      setStudent(STUDENT_ACCOUNTS[storedAuth]);
+      setLoading(false);
+      return;
+    } else if (storedAuth === "admin") {
+      // Redirect admin to assessment analytics
+      void navigate({ to: "/assessment-analytics", replace: true });
+      return;
     }
 
     // 2. Check Supabase auth session

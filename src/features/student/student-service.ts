@@ -4,6 +4,7 @@ import {
   type DemoStudentUsername,
   type StudentProfile,
 } from "./student-data";
+import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const studentService = {
   getStudentByUsername(username: string): StudentProfile | null {
@@ -25,8 +26,7 @@ export const studentService = {
   },
 
   getCurrentStudentFromStorage(): StudentProfile | null {
-    if (typeof window === "undefined") return null;
-    const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
+    const storedAuth = getStoredDemoAuth();
     if (storedAuth && isStudentUsername(storedAuth)) {
       return STUDENT_ACCOUNTS[storedAuth] ?? null;
     }

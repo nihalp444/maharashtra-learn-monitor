@@ -36,6 +36,7 @@ import {
 } from "@/features/student/student-data";
 import { studentService } from "@/features/student/student-service";
 import { supabase } from "@/integrations/supabase/client";
+import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -78,19 +79,17 @@ function DashboardPage() {
   });
 
   useEffect(() => {
-    // 1. Check local demo auth
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth && isStudentUsername(storedAuth)) {
-        setCurrentUser({
-          isStudent: true,
-          studentProfile: STUDENT_ACCOUNTS[storedAuth],
-        });
-        return;
-      } else if (storedAuth === "admin") {
-        setCurrentUser({ isStudent: false, studentProfile: null });
-        return;
-      }
+    // 1. Check demo auth
+    const storedAuth = getStoredDemoAuth();
+    if (storedAuth && isStudentUsername(storedAuth)) {
+      setCurrentUser({
+        isStudent: true,
+        studentProfile: STUDENT_ACCOUNTS[storedAuth],
+      });
+      return;
+    } else if (storedAuth === "admin") {
+      setCurrentUser({ isStudent: false, studentProfile: null });
+      return;
     }
 
     // 2. Check Supabase auth

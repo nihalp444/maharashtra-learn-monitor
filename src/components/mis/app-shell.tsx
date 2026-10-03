@@ -46,6 +46,7 @@ import {
 import { LearningPreferencesModal } from "@/components/student/learning-preferences-modal";
 import { studentPreferencesService } from "@/features/student/student-preferences-service";
 import type { StudentAgeGroup } from "@/features/student/student-data";
+import { getStoredDemoAuth, clearStoredDemoAuth } from "@/features/auth/auth-storage";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -221,8 +222,7 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
     try {
       setLoggingOut(true);
       if (typeof window !== "undefined") {
-        localStorage.removeItem("mbocwwb-demo-auth");
-        sessionStorage.removeItem("mbocwwb-demo-auth");
+        clearStoredDemoAuth();
         sessionStorage.removeItem("mbocwwb-session-only");
         for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i);
@@ -618,11 +618,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    // 1. Check local demo auth first
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth) {
-        const student = STUDENT_ACCOUNTS[storedAuth];
+    // 1. Check demo auth first
+    const storedAuth = getStoredDemoAuth();
+    if (storedAuth) {
+      const student = STUDENT_ACCOUNTS[storedAuth];
         if (student) {
           setUserInfo({
             name: student.displayName,
@@ -646,7 +645,6 @@ export function AppShell({ children }: { children: ReactNode }) {
           return;
         }
       }
-    }
 
     // 2. Check Supabase session
     supabase.auth.getUser().then(({ data }) => {

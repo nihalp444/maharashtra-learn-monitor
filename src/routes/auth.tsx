@@ -22,6 +22,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { identifierToEmail } from "@/lib/auth-identifier";
 import { STUDENT_ACCOUNTS, isStudentUsername } from "@/features/student/student-data";
+import { getStoredDemoAuth, setStoredDemoAuth, clearStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -42,7 +43,7 @@ function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -53,12 +54,10 @@ function LoginPage() {
         void navigate({ to: "/dashboard", replace: true });
         return;
       }
-      // Check local demo session (admin or student)
-      if (typeof window !== "undefined") {
-        const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-        if (storedAuth && (storedAuth === "admin" || isStudentUsername(storedAuth))) {
-          void navigate({ to: "/dashboard", replace: true });
-        }
+      // Check demo session (sessionStorage or localStorage if remember was chosen)
+      const storedAuth = getStoredDemoAuth();
+      if (storedAuth && (storedAuth === "admin" || isStudentUsername(storedAuth))) {
+        void navigate({ to: "/dashboard", replace: true });
       }
     });
   }, [navigate]);
@@ -75,7 +74,7 @@ function LoginPage() {
 
     // 1. Instant login for demo admin account
     if (trimmedId === "admin" && password === "12345678") {
-      localStorage.setItem("mbocwwb-demo-auth", "admin");
+      setStoredDemoAuth("admin", remember);
       setSubmitting(false);
       void navigate({ to: "/dashboard", replace: true });
       return;
@@ -83,7 +82,7 @@ function LoginPage() {
 
     // 2. Instant login for demo student accounts (aarav6, aarav11, aarav15)
     if (isStudentUsername(trimmedId) && password === "12345678") {
-      localStorage.setItem("mbocwwb-demo-auth", trimmedId);
+      setStoredDemoAuth(trimmedId, remember);
       setSubmitting(false);
       void navigate({ to: "/dashboard", replace: true });
       return;
@@ -99,7 +98,7 @@ function LoginPage() {
 
     if (signInData?.user) {
       setSubmitting(false);
-      localStorage.removeItem("mbocwwb-demo-auth");
+      clearStoredDemoAuth();
       if (!remember) sessionStorage.setItem("mbocwwb-session-only", "true");
       await navigate({ to: "/dashboard", replace: true });
       return;

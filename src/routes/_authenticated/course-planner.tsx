@@ -25,6 +25,7 @@ import {
   STUDENT_ACCOUNTS,
   type StudentProfile,
 } from "@/features/student/student-data";
+import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 import { studentService } from "@/features/student/student-service";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -45,12 +46,10 @@ export const Route = createFileRoute("/_authenticated/course-planner")({
     ],
   }),
   beforeLoad: async () => {
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      // Admin should not access Course Planner page
-      if (storedAuth === "admin") {
-        throw redirect({ to: "/dashboard" });
-      }
+    const storedAuth = getStoredDemoAuth();
+    // Admin should not access Course Planner page
+    if (storedAuth === "admin") {
+      throw redirect({ to: "/dashboard" });
     }
   },
   component: CoursePlannerPage,
@@ -72,18 +71,16 @@ function CoursePlannerPage() {
   } | null>(null);
 
   useEffect(() => {
-    // 1. Check local demo authentication
-    if (typeof window !== "undefined") {
-      const storedAuth = localStorage.getItem("mbocwwb-demo-auth");
-      if (storedAuth && isStudentUsername(storedAuth)) {
-        setStudent(STUDENT_ACCOUNTS[storedAuth]);
-        setLoading(false);
-        return;
-      } else if (storedAuth === "admin") {
-        setIsUnauthorized(true);
-        setLoading(false);
-        return;
-      }
+    // 1. Check demo authentication
+    const storedAuth = getStoredDemoAuth();
+    if (storedAuth && isStudentUsername(storedAuth)) {
+      setStudent(STUDENT_ACCOUNTS[storedAuth]);
+      setLoading(false);
+      return;
+    } else if (storedAuth === "admin") {
+      setIsUnauthorized(true);
+      setLoading(false);
+      return;
     }
 
     // 2. Check Supabase user
