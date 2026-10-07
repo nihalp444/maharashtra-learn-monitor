@@ -203,7 +203,7 @@ export function CourseVideoModal({
                       {activeVideo?.title || "Video Lecture"}
                     </h4>
                     <p className="text-xs text-slate-300 mb-5 leading-relaxed">
-                      This video is hosted in the official Klassroom Google Drive repository. You can play directly or preview via the Drive folder.
+                      This video is hosted in the official digital learning repository. You can play directly or preview via the drive folder.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-2.5">
                       <Button
@@ -359,7 +359,7 @@ export function CourseVideoModal({
         <div className="border-t border-slate-100 bg-slate-50 px-4 py-3 sm:px-5 flex items-center justify-between flex-shrink-0">
           <div className="text-[11px] text-slate-500 flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Synced with Google Drive Klassroom Repository</span>
+            <span>Synced with Official Digital Learning Repository</span>
           </div>
           <Button
             type="button"

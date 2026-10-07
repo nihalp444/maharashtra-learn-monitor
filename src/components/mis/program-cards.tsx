@@ -192,12 +192,19 @@ export function ProgramCards({
 
               {/* Title & Subtitle Row */}
               <div className="mt-2">
-                <h3
-                  className="font-extrabold text-slate-900 text-sm sm:text-[15px] leading-tight tracking-tight"
-                  title={program.name}
-                >
-                  {program.name}
-                </h3>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <h3
+                    className="font-extrabold text-slate-900 text-sm sm:text-[15px] leading-tight tracking-tight"
+                    title={program.name}
+                  >
+                    {program.name}
+                  </h3>
+                  {(program.id === "jee" || program.id === "neet" || program.id === "ai-ml") && (
+                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[9.5px] font-black tracking-wide text-primary uppercase border border-primary/20">
+                      {program.id === "ai-ml" ? "National Future Tech" : "National Entrance Exam"}
+                    </span>
+                  )}
+                </div>
                 <p
                   className="mt-0.5 text-[11px] font-medium text-slate-500 line-clamp-1"
                   title={program.fullName}
