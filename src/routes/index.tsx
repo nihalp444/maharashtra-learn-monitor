@@ -1,23 +1,13 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
-import { getStoredDemoAuth } from "@/features/auth/auth-storage";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: async () => {
-    try {
-      const { data, error } = await supabase.auth.getUser();
-      if (!error && data.user) {
-        throw redirect({ to: "/dashboard" });
-      }
-    } catch (e) {
-      if ((e as { to?: string })?.to) throw e;
-    }
-
-    const storedAuth = getStoredDemoAuth();
-    if (storedAuth) {
-      throw redirect({ to: "/dashboard" });
-    }
-
-    throw redirect({ to: "/auth" });
-  },
+  head: () => ({ meta: [
+    { title: "MBOCWWB Digital Learning — Welcome" },
+    { name: "description", content: "Welcome to Maharashtra's digital learning initiative for construction workers' children." },
+    { property: "og:title", content: "MBOCWWB Digital Learning — Welcome" },
+    { property: "og:description", content: "Explore Maharashtra's digital learning initiative." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
+  beforeLoad: () => { throw redirect({ to: "/home" }); },
 });

@@ -10,3 +10,5 @@
 - [x] Add the MBOCWWB institutional header and align the MIS theme with the portal reference
 - [ ] Add secure administrator login with username/mobile access and protect every MIS page
 - [x] Replace Smt. I. A. Kundan's broken published portrait with the supplied image
+- [ ] Add the public home page, simplified navigation, impact counters and proposal download from the supplied brief
+- [ ] Repair existing preview errors and verify the public home and login pages

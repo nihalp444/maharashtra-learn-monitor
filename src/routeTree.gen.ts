@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as AuthenticatedAchievementsLeadershipRouteImport } from './routes/_authenticated/achievements-leadership'
 import { Route as AuthenticatedAssessmentAnalyticsRouteImport } from './routes/_authenticated/assessment-analytics'
 import { Route as AuthenticatedAssessmentsScholarshipsRouteImport } from './routes/_authenticated/assessments-scholarships'
@@ -34,6 +35,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAchievementsLeadershipRoute =
@@ -91,6 +97,7 @@ const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/home': typeof HomeRoute
   '/achievements-leadership': typeof AuthenticatedAchievementsLeadershipRoute
   '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
   '/assessments-scholarships': typeof AuthenticatedAssessmentsScholarshipsRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/home': typeof HomeRoute
   '/achievements-leadership': typeof AuthenticatedAchievementsLeadershipRoute
   '/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
   '/assessments-scholarships': typeof AuthenticatedAssessmentsScholarshipsRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/home': typeof HomeRoute
   '/_authenticated/achievements-leadership': typeof AuthenticatedAchievementsLeadershipRoute
   '/_authenticated/assessment-analytics': typeof AuthenticatedAssessmentAnalyticsRoute
   '/_authenticated/assessments-scholarships': typeof AuthenticatedAssessmentsScholarshipsRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/home'
     | '/achievements-leadership'
     | '/assessment-analytics'
     | '/assessments-scholarships'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/home'
     | '/achievements-leadership'
     | '/assessment-analytics'
     | '/assessments-scholarships'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/home'
     | '/_authenticated/achievements-leadership'
     | '/_authenticated/assessment-analytics'
     | '/_authenticated/assessments-scholarships'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  HomeRoute: typeof HomeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/achievements-leadership': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  HomeRoute: HomeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
