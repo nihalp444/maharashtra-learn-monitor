@@ -83,7 +83,7 @@ export interface UserSessionInfo {
 }
 
 const adminNav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/leadership", label: "Leadership", icon: Trophy },
   { to: "/district-analytics", label: "District Analytics", icon: Building2 },
   { to: "/learning-programs", label: "Learning Programs", icon: BookOpenCheck },
@@ -209,7 +209,6 @@ function UserProfileDropdown({ userInfo }: { userInfo: UserSessionInfo }) {
       return unsubscribe;
     }
     return undefined;
-    return;
   }, [userInfo.username]);
 
   useEffect(() => {
@@ -608,6 +607,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isAuthPage = pathname === "/auth" || pathname.startsWith("/auth/");
+  const isHomePage = pathname === "/home";
   const { locale, setLocale, t } = useI18n();
 
   const [userInfo, setUserInfo] = useState<UserSessionInfo>({
@@ -841,7 +841,14 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
 
         {/* Primary Red Strip: Full navigation for admin pages, subtle secure gateway strip on auth page */}
-        {isAuthPage ? (
+        {isHomePage ? (
+          <div className="bg-government-nav text-government-nav-foreground">
+            <nav aria-label="Public navigation" className="mx-auto flex min-h-12 max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8">
+              <Button asChild variant="ghost" className="text-government-nav-foreground hover:bg-government-nav-active hover:text-government-nav-foreground"><Link to="/home" aria-current="page"><Building2 />Home</Link></Button>
+              <Button asChild variant="gold"><Link to="/auth">Login to MIS →</Link></Button>
+            </nav>
+          </div>
+        ) : isAuthPage ? (
           <div className="bg-primary text-white shadow-sm border-b border-primary/20">
             <div className="mx-auto flex h-10 max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8 text-xs font-semibold text-white">
               <div className="flex items-center gap-2.5">
@@ -915,10 +922,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       </header>
 
-      <main id="main-content" className={`flex-1 ${isAuthPage ? "" : "mx-auto w-full max-w-[1600px] pb-10"}`}>{children}</main>
+      <main id="main-content" className={`flex-1 ${isAuthPage || isHomePage ? "" : "mx-auto w-full max-w-[1600px] pb-10"}`}>{children}</main>
 
       {/* Floating Ask Me Chatbot */}
-      {!isAuthPage && <FloatingChatbot />}
+      {!isAuthPage && !isHomePage && <FloatingChatbot />}
 
       {/* Footer */}
       {!isAuthPage && (

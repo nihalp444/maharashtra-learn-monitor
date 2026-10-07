@@ -10,3 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Published leadership portraits use Lovable asset pointers so image URLs remain stable across preview and production builds.
+- The public home is an unauthenticated leaf inside AppShell with a dedicated public navigation branch; this preserves the institutional header without exposing MIS controls.
+- Home proposal figures are presentational constants and never overwrite operational mock data; this keeps proposal content independent of MIS analytics.
